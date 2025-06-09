@@ -10,12 +10,7 @@ from wikitextparser import Table, WikiLink, WikiText, Template, Parameter
 def read_text(text):
     return wtparser.parse(text)
 
-def read_wiikilink(text):
-    parsed_text: WikiText = wtparser.parse(text)
-    WikiLinks = parsed_text.filter(forcetype=WikiLink)
-    if not WikiLinks:
-        return str(text), str(text)
-    wiikilink: WikiLink = WikiLinks[0]
+def read_wiikilink(wiikilink: WikiLink):
     if wiikilink.text:
         return str(wiikilink.title), str(wiikilink.text)
     else:
