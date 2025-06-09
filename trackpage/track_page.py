@@ -27,3 +27,21 @@ def get_distros_from_page(page_text):
 
     distro_section = [section for section in page_text.sections if section.title and "Custom Track Distributions" in section.title][0]
     return get_distros_from_section(distro_section)
+
+def create_distros_section(distros: dict):
+    distro_section_text = "== <span id=distrib-list>Custom Track Distributions</span> ==\n"
+    distro_section_text += "This track is part of the following [[Custom Track Distribution]]s:\n"
+    for key, value in distros.items():
+        distros[key] = "* " + value.strip()
+    distro_section_text += "\n".join(distros.values())
+    distro_section_text += "\n\n"
+    return distro_section_text
+
+def get_distros_sectionid(page_text):
+    if not isinstance(page_text, WikiText):
+        page_text = read_text(page_text)
+
+    for i, section in enumerate(page_text.sections):
+        if section.title and "Custom Track Distributions" in section.title:
+            return i
+    return -1

@@ -15,7 +15,12 @@ def add_distros(pageid, new_distros: dict):
         new_distros.pop(invalid_distro)
     all_distros = curr_distros | new_distros
     all_distros = dict(sorted(all_distros.items(), key=lambda x: x[0].lower()))
-    print(all_distros)
+
+    distros_section = track_page.create_distros_section(distros=all_distros)
+    distros_section_id = track_page.get_distros_sectionid(page_text)
+
+    print(distros_section)
+    print(distros_section_id)
 
 added_distros = {}
 added_distros["tarsa's epic track page"] = "[[tarsa's epic track pack]] (v1.1)"
