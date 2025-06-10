@@ -60,3 +60,24 @@ def get_page_text_by_pageids(pageids):
 
 def get_page_text_by_id(pageid):
     return get_page_text_by_pageids((pageid, ))[0]
+
+def get_page_text_by_names(pagnenames):
+    if len(pagnenames) == 0:
+        return []
+
+    base_params = {
+        "action": "query",
+        "format": "json",
+        "titles": "{0}".format("|".join(str(pagename) for pagename in pagnenames)),
+        "prop": "revisions|info|redirects|categories",
+        "rvprop": "content",
+        "rvslots": "*",
+        "formatversion": 2,
+        "inprop": "displaytitle",
+        "rdprop": "title|pageid",
+    }
+
+    return do_tockdom_query(base_params)['pages']
+
+def get_page_text_by_name(pagnename):
+    return get_page_text_by_names((pagnename, ))[0]
