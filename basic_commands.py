@@ -1,4 +1,5 @@
-from commands import distros
+from commands.miscinfo import miscinfo_handler
+from commands.distros import distros_handler
 
 if __name__ == "__main__":
     import argparse
@@ -13,4 +14,6 @@ if __name__ == "__main__":
     commandgroup = args.commandgroup
     print(commandgroup)
     if commandgroup.lower() == "distros":
-        distros.handle_command(args.action, args.file)
+        distros_handler.handle_command(args.action, args.file)
+    elif commandgroup.lower() == "miscinfo":
+        miscinfo_handler.handle_command(args.action, args.file)

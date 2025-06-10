@@ -1,5 +1,5 @@
 from tockdomio import tockdomread, tockdomwrite
-from trackpage import track_page
+from commands.distros import track_page_distros as track_page
 import warnings
 
 def combine_distros(curr_distros, new_distros, update_existing):
