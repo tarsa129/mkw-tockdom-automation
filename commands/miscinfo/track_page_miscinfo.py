@@ -28,3 +28,12 @@ def get_miscinfo_template(page_text):
         arguments[argument.name] = argument.value.strip()
 
     return arguments
+
+def create_miscinfo_template(arguments: dict):
+    template_text = "{{Misc-Info\n"
+    for argument, value in arguments.items():
+        if not value:
+            continue
+        template_text += "|{}= {}\n".format(argument, value)
+    template_text += "}}"
+    return template_text
