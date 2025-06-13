@@ -20,7 +20,6 @@ def get_distros_from_section(section_text: WikiText):
     assert(len(section_text.get_lists()) == 1)
     raw_distro_list =  section_text.get_lists()[0]
     parsed_distro_list = {}
-
     for item in raw_distro_list.items:
         distro_name = read_distro_name(item)
         if distro_name is None:
@@ -39,14 +38,26 @@ def get_distros_from_page(page_text):
     distro_section = [section for section in page_text.sections if check_section_title(section)][0]
     return get_distros_from_section(distro_section)
 
-def create_distros_section(distros: dict):
-    distro_section_text = "== <span id=distrib-list>Custom Track Distributions</span> ==\n"
-    distro_section_text += "This track is part of the following [[Custom Track Distribution]]s:\n"
+def create_distros_section(page_text, distros:dict):
+    if not isinstance(page_text, WikiText):
+        page_text = read_text(page_text)
+
+    def check_section_title(section: Section):
+        return section.title and section.title.strip() == "<span id=distrib-list>Custom Track Distributions</span>"
+
+    distro_section = [section for section in page_text.sections if check_section_title(section)][0]
+    raw_distro_list =  distro_section.get_lists()[0]
+    raw_distro_list.string = create_distros_list(distros)
+
+    return distro_section.string
+
+def create_distros_list(distros: dict):
+    distro_list_text = ""
     for key, value in distros.items():
         distros[key] = "* " + value.strip()
-    distro_section_text += "\n".join(distros.values())
-    distro_section_text += "\n\n"
-    return distro_section_text
+    distro_list_text += "\n".join(distros.values())
+    distro_list_text += "\n"
+    return distro_list_text
 
 def get_distros_sectionid(page_text):
     if not isinstance(page_text, WikiText):

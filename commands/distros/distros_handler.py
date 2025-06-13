@@ -1,5 +1,5 @@
 from tockdomio import tockdomread, tockdomwrite
-from commands.distros import track_page_distros as track_page
+from . import track_page_distros as track_page
 from commands.distros import distro_file as distro_file
 import warnings
 from enum import Enum
@@ -62,9 +62,8 @@ def read_and_update_page(tockdom_response, new_distros, action):
         raise RuntimeError("Existing distros in combined list.")
 
     distros_section_id = track_page.get_distros_sectionid(page_text)
-    distros_section_text = track_page.create_distros_section(distros)
+    distros_section_text = track_page.create_distros_section(page_text, distros)
     response = tockdomwrite.edit_section(page_id, distros_section_id, distros_section_text)
-
     return response.json()["edit"]["result"]
 
 def edit_distros_to_pagename(pagename, distros: dict, action):
