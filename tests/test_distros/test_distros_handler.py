@@ -22,6 +22,18 @@ class TestDistroHandler(unittest.TestCase):
             "Y Distro": "[[Y Distro]] (v1.1)"
         }
 
+    def test_validate_distros_normal(self):
+        validation = dh.validate_distros(self.curr_distros)
+        self.assertTrue(validation)
+
+    def test_validate_distros_repeat_distroname(self):
+        self.curr_distros["X Distro"] = "[[X Distro]]"
+        self.curr_distros["y Distro"] = "[[y Distro]]"
+        with warnings.catch_warnings(record=True) as w:
+            validation = dh.validate_distros(self.curr_distros)
+            self.assertEqual(len(w), 2)
+            self.assertTrue(not validation)
+
     def test_combine_distros_add_noduplicate(self):
         action = dh.Action.ADD
 
