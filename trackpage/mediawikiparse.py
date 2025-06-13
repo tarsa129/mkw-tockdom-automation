@@ -7,7 +7,7 @@
 import wikitextparser as wtparser
 from wikitextparser import Table, WikiLink, WikiText, Template, Parameter
 
-def read_text(text):
+def read_text(text) -> WikiText:
     return wtparser.parse(text)
 
 def read_wiikilink(wiikilink: WikiLink):
