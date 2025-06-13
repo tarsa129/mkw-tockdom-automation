@@ -9,36 +9,10 @@ def do_tockdom_query(base_params, getcontinue=False):
     }
 
     response = requests.get(TOCKDOM_API, headers=headers, params=base_params)
-    print(response.url)
     if getcontinue:
         return response.json()
     action = base_params["action"]
     return response.json()[action]
-
-def get_pageids_of_category(szs_type, track_type):
-    base_params = {
-        "action": "query",
-        "list": "categorymembers",
-        "cmtitle" : "Category:" + szs_type + "/" + track_type,
-        "format": "json",
-        "cmlimit": CATEGORYLIST_BULKCOUNT,
-    }
-    response = do_tockdom_query(base_params)
-
-    last_continue = {}
-    while True:
-        params = base_params.copy()
-        params.update(last_continue)
-
-        response = do_tockdom_query(params, getcontinue=True)
-
-        for result in response['query']['categorymembers']:
-            yield result
-
-        if 'continue' not in response:
-            break
-
-        last_continue = response['continue']
 
 def get_page_text_by_pageids(pageids):
     if len(pageids) == 0:

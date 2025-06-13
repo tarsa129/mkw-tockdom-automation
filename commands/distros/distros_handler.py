@@ -48,7 +48,6 @@ def combine_distros(curr_distros: dict, new_distros: dict, action):
 def read_and_update_page(tockdom_response, new_distros, action):
     if not (validate_distros):
         raise RuntimeError("List of distros to add has repeats")
-    print(tockdom_response)
     if not "pageid" in tockdom_response:
         raise RuntimeError("Page with name {} does not exist".format(tockdom_response["title"]))
     page_id = tockdom_response["pageid"]

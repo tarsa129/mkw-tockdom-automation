@@ -10,8 +10,6 @@ def get_tockdom_query(base_params, cookies=None) -> Response:
     }
 
     response = requests.get(TOCKDOM_API, headers=headers, params=base_params, cookies=cookies)
-    print(response.url)
-    print(response.json())
     return response
 
 def post_tockdom_query(data, cookies=None):
@@ -20,8 +18,6 @@ def post_tockdom_query(data, cookies=None):
     }
 
     response = requests.post(TOCKDOM_API, headers=headers, data=data, cookies=cookies)
-    print(response.url)
-    print(response.json())
     return response
 
 def get_login_token_response():
