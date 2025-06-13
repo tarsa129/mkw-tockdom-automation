@@ -1,4 +1,20 @@
 from trackpage.mediawikiparse import *
+import warnings
+
+def read_distro_name(item):
+    if str(item).strip() == "(none)":
+        return None
+    distro_name = item
+    item_parsed: WikiText = read_text(item)
+    if len(item_parsed.wikilinks) > 0:
+        distro_wikilink = item_parsed.wikilinks[0]
+        _, distro_name = read_wiikilink(distro_wikilink)
+    elif len(item_parsed.templates) > 0:
+        distro_template = item_parsed.templates[0]
+        assert(distro_template.name == "Distrib-ref")
+        assert(len(distro_template.arguments) == 3)
+        distro_name = distro_template.arguments[0].value
+    return distro_name
 
 def get_distros_from_section(section_text: WikiText):
     assert(len(section_text.get_lists()) == 1)
@@ -6,18 +22,10 @@ def get_distros_from_section(section_text: WikiText):
     parsed_distro_list = {}
 
     for item in raw_distro_list.items:
-        if str(item).strip() == "(none)":
+        distro_name = read_distro_name(item)
+        if distro_name is None:
+            warnings.warn("(none) distribution after {} valid distros".format(len(parsed_distro_list)))
             return parsed_distro_list
-        distro_name = item
-        item_parsed: WikiText = read_text(item)
-        if len(item_parsed.wikilinks) > 0:
-            distro_wikilink = item_parsed.wikilinks[0]
-            _, distro_name = read_wiikilink(distro_wikilink)
-        elif len(item_parsed.templates) > 0:
-            distro_template = item_parsed.templates[0]
-            assert(distro_template.name == "Distrib-ref")
-            assert(len(distro_template.arguments) == 3)
-            distro_name = distro_template.arguments[0].value
         parsed_distro_list[distro_name] = item
     return parsed_distro_list
 

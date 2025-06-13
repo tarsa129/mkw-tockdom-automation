@@ -4,6 +4,7 @@ import warnings
 from collections import defaultdict
 
 from trackpage import mediawikiparse as mwp
+from commands.distros import track_page_distros
 
 def parse_row(i, row):
     if len(row) == 0:
@@ -20,21 +21,9 @@ def parse_row(i, row):
     distros = {}
 
     for distro_text in row[1:]:
-        parsed_text: mwp.WikiText = mwp.read_text(distro_text)
-        if len(parsed_text.templates) > 0:
-            assert(len(parsed_text.templates) == 1)
-            distro_template = parsed_text.templates[0]
-            if distro_template.name != "Distrib-ref":
-                warnings.warn('{} is a template but is not named "Distrib-ref"'.format(distro_text))
-            distro_name = distro_template.arguments[0].value
-            distros[distro_name] = str(distro_template)
-        elif len(parsed_text.wikilinks) > 0:
-            assert(len(parsed_text.wikilinks) == 1)
-            _, distro_name = mwp.read_wiikilink(parsed_text.wikilinks[0])
-            distros[distro_name] = str(distro_text)
-        else:
-            warnings.warn("{} is not a valid distribution Wiiki text".format(distro_text))
-
+        distro_name = track_page_distros.read_distro_name(distro_text)
+        if distro_name is not None:
+            distros[distro_name] = distro_text
     return pagename, distros
 
 def read_distro_file(file):
