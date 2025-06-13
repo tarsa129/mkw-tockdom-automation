@@ -33,7 +33,10 @@ def get_distros_from_page(page_text):
     if not isinstance(page_text, WikiText):
         page_text = read_text(page_text)
 
-    distro_section = [section for section in page_text.sections if section.title and "Custom Track Distributions" in section.title][0]
+    def check_section_title(section: Section):
+        return section.title and section.title.strip() == "<span id=distrib-list>Custom Track Distributions</span>"
+
+    distro_section = [section for section in page_text.sections if check_section_title(section)][0]
     return get_distros_from_section(distro_section)
 
 def create_distros_section(distros: dict):
