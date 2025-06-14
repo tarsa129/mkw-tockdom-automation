@@ -25,27 +25,28 @@ def get_distros_from_section(section_text: WikiText):
         if distro_name is None:
             warnings.warn("(none) distribution after {} valid distros".format(len(parsed_distro_list)))
             return parsed_distro_list
-        parsed_distro_list[distro_name] = item
+        parsed_distro_list[distro_name] = item.strip()
     return parsed_distro_list
 
-def get_distros_from_page(page_text):
+def get_distrosection_from_page(page_text):
     if not isinstance(page_text, WikiText):
         page_text = read_text(page_text)
 
     def check_section_title(section: Section):
         return section.title and section.title.strip() == "<span id=distrib-list>Custom Track Distributions</span>"
 
-    distro_section = [section for section in page_text.sections if check_section_title(section)][0]
+    valid_sections = list(filter(lambda x: check_section_title(x), page_text.sections))
+    if len(valid_sections) != 1:
+        raise RuntimeError("Page has an invalid number of distro sections.")
+
+    return valid_sections[0]
+
+def get_distros_from_page(page_text):
+    distro_section = get_distrosection_from_page(page_text)
     return get_distros_from_section(distro_section)
 
 def create_distros_section(page_text, distros:dict):
-    if not isinstance(page_text, WikiText):
-        page_text = read_text(page_text)
-
-    def check_section_title(section: Section):
-        return section.title and section.title.strip() == "<span id=distrib-list>Custom Track Distributions</span>"
-
-    distro_section = [section for section in page_text.sections if check_section_title(section)][0]
+    distro_section = get_distrosection_from_page(page_text)
     raw_distro_list =  distro_section.get_lists()[0]
     raw_distro_list.string = create_distros_list(distros)
 
@@ -53,6 +54,11 @@ def create_distros_section(page_text, distros:dict):
 
 def create_distros_list(distros: dict):
     distro_list_text = ""
+
+    if len(distros) == 0:
+        distro_list_text += "* (none)\n"
+        return distro_list_text
+
     for key, value in distros.items():
         distros[key] = "* " + value.strip()
     distro_list_text += "\n".join(distros.values())
