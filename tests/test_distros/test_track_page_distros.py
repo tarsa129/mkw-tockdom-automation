@@ -121,3 +121,60 @@ This track is part of the following [[Custom Track Distribution]]s:
         expected_text = "* (none)\n"
         actual_text = tpd.create_distros_list(distros)
         self.assertEqual(actual_text, expected_text)
+
+    @mock.patch("commands.distros.track_page_distros.read_text")
+    def test_get_distros_sectionid_first(self, mock_read_text):
+        page_text = """\n== <span id=distrib-list>Custom Track Distributions</span> ==
+This track is part of the following [[Custom Track Distribution]]s:
+* {{Distrib-ref|Distro Name 1|123123|distro-name}}
+* {{Distrib-ref|Distro Name 2|12|distro-name}}\n"""
+        mock_read_text.return_value = wtp.parse(page_text)
+        distro_section_id = tpd.get_distros_sectionid(page_text)
+        mock_read_text.assert_called_once()
+
+        self.assertEqual(distro_section_id, 1)
+
+    def test_get_distros_sectionid_middle_header(self):
+        page_text = """first filler text== first section ==
+filler text
+== <span id=distrib-list>Custom Track Distributions</span> ==
+This track is part of the following [[Custom Track Distribution]]s:
+* {{Distrib-ref|Distro Name 1|123123|distro-name}}
+* {{Distrib-ref|Distro Name 2|12|distro-name}}
+=== inner section ===
+more filler text"""
+        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
+
+        self.assertEqual(distro_section_id, 1)
+
+    def test_get_distros_sectionid_middle(self):
+        page_text = """== first section ==
+filler text
+=== inner first section ===
+filllller
+== <span id=distrib-list>Custom Track Distributions</span> ==
+This track is part of the following [[Custom Track Distribution]]s:
+* {{Distrib-ref|Distro Name 1|123123|distro-name}}
+* {{Distrib-ref|Distro Name 2|12|distro-name}}
+=== inner section ===
+more filler text"""
+        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
+
+        self.assertEqual(distro_section_id, 3)
+
+    def test_get_distros_sectionid_end(self):
+        page_text = """== first section ==
+filler text
+== <span id=distrib-list>Custom Track Distributions</span> ==
+This track is part of the following [[Custom Track Distribution]]s:
+* {{Distrib-ref|Distro Name 1|123123|distro-name}}
+* {{Distrib-ref|Distro Name 2|12|distro-name}}\n"""
+        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
+
+        self.assertEqual(distro_section_id, 2)
+
+    def test_get_distros_sectionid_none(self):
+        page_text = """== first section ==\nfiller text\n"""
+        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
+
+        self.assertEqual(distro_section_id, -1)
