@@ -52,7 +52,7 @@ def get_csrf_token(cookies):
     }
     return get_tockdom_query(base_params, cookies=cookies).json()["query"]["tokens"]["csrftoken"]
 
-def edit_section(pageid, sectionid, section_text):
+def edit_section(pageid, sectionid, section_text, edit_summary="Test Editing via API"):
     login_cookies = login()
     token = get_csrf_token(login_cookies)
 
@@ -62,7 +62,7 @@ def edit_section(pageid, sectionid, section_text):
         "section":sectionid,
         "format": "json",
         "text": section_text,
-        "summary": "Update distributions for track.",
+        "summary": edit_summary,
         "token": token
     }
     response = post_tockdom_query(base_params, cookies=login_cookies)

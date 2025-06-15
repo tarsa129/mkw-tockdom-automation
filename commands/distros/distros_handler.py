@@ -63,7 +63,9 @@ def read_and_update_page(tockdom_response, new_distros, action):
 
     distros_section_id = track_page.get_distros_sectionid(page_text)
     distros_section_text = track_page.create_distros_section(page_text, distros)
-    response = tockdomwrite.edit_section(page_id, distros_section_id, distros_section_text)
+    edit_summary = "Edit distributions on page (via API)"
+    response = tockdomwrite.edit_section(page_id, distros_section_id, distros_section_text, edit_summary)
+    print(response.json())
     return response.json()["edit"]["result"]
 
 def edit_distros_to_pagename(pagename, distros: dict, action):
