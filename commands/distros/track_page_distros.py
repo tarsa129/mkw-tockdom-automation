@@ -1,4 +1,5 @@
 from trackpage.mediawikiparse import *
+from trackpage.wiiki_page_parse import get_section_from_page
 import warnings
 
 def read_distro_name(item):
@@ -29,17 +30,7 @@ def get_distros_from_section(section_text: WikiText):
     return parsed_distro_list
 
 def get_distrosection_from_page(page_text):
-    if not isinstance(page_text, WikiText):
-        page_text = read_text(page_text)
-
-    def check_section_title(section: Section):
-        return section.title and section.title.strip() == "<span id=distrib-list>Custom Track Distributions</span>"
-
-    valid_sections = list(filter(lambda x: check_section_title(x), page_text.sections))
-    if len(valid_sections) != 1:
-        raise RuntimeError("Page has an invalid number of distro sections.")
-
-    return valid_sections[0]
+    return get_section_from_page(page_text, "<span id=distrib-list>Custom Track Distributions</span>")
 
 def get_distros_from_page(page_text):
     distro_section = get_distrosection_from_page(page_text)

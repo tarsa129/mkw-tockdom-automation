@@ -1,4 +1,6 @@
 from trackpage.mediawikiparse import *
+from trackpage.mediawiki_create import *
+from trackpage.wiiki_page_parse import *
 import warnings
 
 def get_ordered_miscinfo_arguments():
@@ -10,13 +12,7 @@ def get_ordered_miscinfo_arguments():
     return arguments
 
 def get_miscinfo_template(page_text):
-    if not isinstance(page_text, WikiText):
-        page_text = read_text(page_text)
-    templates: list[Template] = page_text.templates
-    miscinfo_template: Template = None
-    for template in templates:
-        if template.name.strip() == "Misc-Info":
-            miscinfo_template = template
+    miscinfo_template = get_template_with_name(page_text, "Misc-Info")
     if miscinfo_template is None:
         return None
 
@@ -30,10 +26,4 @@ def get_miscinfo_template(page_text):
     return arguments
 
 def create_miscinfo_template(arguments: dict):
-    template_text = "{{Misc-Info\n"
-    for argument, value in arguments.items():
-        if not value:
-            continue
-        template_text += "|{}= {}\n".format(argument, value)
-    template_text += "}}"
-    return template_text
+    return create_template_from_args(arguments, "Misc-Info")
