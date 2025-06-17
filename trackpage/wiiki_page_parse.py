@@ -43,8 +43,11 @@ def get_table(text, caption=None):
             return table
     return None
 
-def read_table_topcaption(text):
-    table = get_table(text)
+def read_table_topcaption(text, caption=None):
+    table = get_table(text, caption)
+    if table is None:
+        return None
+
     all_table_rows = table.data()
     columns = all_table_rows[0]
     data = []
@@ -55,8 +58,11 @@ def read_table_topcaption(text):
         data.append(row_dict)
     return data
 
-def read_table_sidecaption(text):
-    table = get_table(text)
+def read_table_sidecaption(text, caption=None):
+    table = get_table(text, caption)
+    if table is None:
+        return None
+
     all_table_rows = table.data()
 
     data = {}

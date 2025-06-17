@@ -1,5 +1,6 @@
 from tockdomio import tockdomread, tockdomwrite
 from . import track_page_distros as track_page
+from . import distro_page_tracklist as distro_page
 from commands.distros import distro_file as distro_file
 import warnings
 from enum import Enum
@@ -80,11 +81,24 @@ def edit_distros_to_pagenames(distros_to_add: dict, action):
     for pagename, distros in distros_to_add.items():
         edit_distros_to_pagename(pagename, distros, action)
 
-def handle_command(action, file):
-    pagename_to_distros = distro_file.read_distro_file(file)
+def create_trackdistro_file(pagename, file):
+    tockdom_response = tockdomread.get_page_text_by_name(pagename)
+    page_text:str = tockdom_response["revisions"][0]["slots"]["main"]["content"]
+    tracks = distro_page.get_tracklist_from_page(page_text)
+    pass
+
+def handle_command(args):
+    action = args.action
+    file = args.file
+
     if action == "add":
+        pagename_to_distros = distro_file.read_distro_file(file)
         edit_distros_to_pagenames(pagename_to_distros, action = Action.ADD)
     elif action == "update":
+        pagename_to_distros = distro_file.read_distro_file(file)
         edit_distros_to_pagenames(pagename_to_distros, action = Action.UPDATE)
     elif action == "delete":
+        pagename_to_distros = distro_file.read_distro_file(file)
         edit_distros_to_pagenames(pagename_to_distros, action = Action.DELETE)
+    elif action == "create_file":
+        create_trackdistro_file(args.wiikipage, args.file)
