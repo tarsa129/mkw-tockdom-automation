@@ -52,7 +52,7 @@ def get_csrf_token(cookies):
     }
     return get_tockdom_query(base_params, cookies=cookies).json()["query"]["tokens"]["csrftoken"]
 
-def edit_section(pageid, sectionid, section_text, edit_summary="Test Editing via API"):
+def edit_section(pageid, sectionid, section_text, edit_summary="Test Editing via API", minor=True):
     login_cookies = login()
     token = get_csrf_token(login_cookies)
 
@@ -63,7 +63,8 @@ def edit_section(pageid, sectionid, section_text, edit_summary="Test Editing via
         "format": "json",
         "text": section_text,
         "summary": edit_summary,
-        "token": token
+        "token": token,
+        "minor": minor
     }
     response = post_tockdom_query(base_params, cookies=login_cookies)
     return response
