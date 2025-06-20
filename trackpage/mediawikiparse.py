@@ -5,7 +5,7 @@
 #And mwparserfromhell for any sort of mixed text (table entries).
 
 import wikitextparser as wtparser
-from wikitextparser import Table, WikiLink, WikiText, Template, Parameter, Section
+from wikitextparser import Table, WikiLink, WikiText, Template, Parameter, Section, WikiList, ExternalLink
 
 def read_text(text) -> WikiText:
     return wtparser.parse(text)
