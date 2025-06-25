@@ -4,9 +4,10 @@ from trackpage.mediawikiparse import read_text, WikiList, WikiText, ExternalLink
 
 import re
 
-caption_to_argument = {"battle": "arenas",
+caption_to_argument = {"authors": "author", "battle": "arenas", "supported regions": "supported region",
                        "online service": "online", "online services": "online", "online region": "region", "online regions": "region",
-                       "wiimmfi region": "region", "wiimmfi regions": "region",
+                       "wiimmfi region": "region", "wiimmfi regions": "region", "[[custom track regions|online region]]": "region",
+                       "languages": "language",
                        "date of latest version": "date of release"}
 
 def get_distroinfo_table(page_text):
@@ -51,9 +52,10 @@ def extract_sourcecode(sourcecode_text):
 def get_ordered_distroinfo_arguments():
     arguments = {}
 
-    distro_arguments = ["name", "cover", "logo", "author", "type", "wii id",
-            "tracks", "arenas", "characters", "songs",
-            "language", "online", "region", "version", "date of release", "download"]
+    distro_arguments = ["name", "cover", "logo", "author", "team", "type", "supported region", "wii id",
+            "tracks", "arenas", "characters", "vehicles", "songs",
+            "language", "online", "region", "online status",
+            "version", "date of release", "download", "social media", "website"]
     for i in range(1, 11):
         distro_arguments.append(f"download {i}")
         distro_arguments.append(f"download {i} note")
@@ -62,7 +64,7 @@ def get_ordered_distroinfo_arguments():
     for expected_param in distro_arguments:
         arguments[expected_param] = None
 
-    required_arguments = ["author", "type", "version", "date of release"]
+    required_arguments = ["author", "type", "version", "date of release", "download"]
     for required_arg in required_arguments:
         arguments[required_arg] = ""
     return arguments
@@ -84,6 +86,7 @@ def get_distroinfo_arguments(distrotable_info: dict):
 
 def assign_value_to_template(arguments, template_parameters_name, value):
     if "download" in template_parameters_name:
+        arguments.pop("download")
         arguments = arguments | create_downloads_dict(value)
     elif "source code" == template_parameters_name:
         # Assume that the source code is from a link that is handled by another template
