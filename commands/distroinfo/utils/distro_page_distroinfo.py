@@ -1,5 +1,4 @@
-from trackpage.mediawiki_create import *
-from trackpage.wiiki_page_parse import get_first_section_from_page, read_table_sidecaption, read_text, get_table
+from trackpage.wiiki_page_parse import get_first_section_from_page, read_table_sidecaption
 from trackpage.mediawikiparse import read_text, WikiList, WikiText, ExternalLink
 
 import re
@@ -138,12 +137,3 @@ def get_file_name_if_exists(value):
         if wikilink_title.startswith("File:"):
             value = wikilink_title[5:]
     return value
-
-def create_distroinfo_template(arguments):
-    return create_template_from_args(arguments, "Distribution-Info")
-
-def edit_distroinfo_section(page_text, template_text):
-    section_text = get_first_section_from_page(page_text)
-    table = get_table(section_text)
-    table.string = template_text
-    return section_text
