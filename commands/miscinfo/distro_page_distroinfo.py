@@ -69,7 +69,7 @@ def get_ordered_distroinfo_arguments():
         arguments[required_arg] = ""
     return arguments
 
-def get_distroinfo_arguments(distrotable_info: dict):
+def get_distroinfo_arguments(distrotable_info: dict, page_name: str):
     arguments = get_ordered_distroinfo_arguments()
 
     for name, value in distrotable_info.items():
@@ -79,13 +79,31 @@ def get_distroinfo_arguments(distrotable_info: dict):
         if value is None or len(value) == 0 or value in ("&mdash;", "&ndash;"):
             continue
 
-        arguments = assign_value_to_template(arguments, template_parameters_name, value)
+        arguments = assign_value_to_template(arguments, template_parameters_name, value, page_name)
 
     return arguments
 
 
-def assign_value_to_template(arguments, template_parameters_name, value):
-    if "download" in template_parameters_name:
+def remove_ctgp_from_type(value):
+    #going to be annoying without the ability to read nodes.
+    if "CTGP Revolution" not in value:
+        return value
+    if "My Stuff" in value:
+        value = str(re.sub("\[\[CTGP Revolution\]\](, )?", "", value))
+        value = value.strip(", ")
+    else:
+        value = str(re.sub("CTGP Revolution", "My Stuff", value))
+    return value
+
+def assign_value_to_template(arguments, template_parameters_name, value, page_name):
+    if "name" == template_parameters_name:
+        if value == "{{PAGENAME}}" or value == page_name:
+            arguments[template_parameters_name] = "{{PAGENAME}}"
+        else:
+            raise RuntimeError("Not valid name")
+    elif "type" == template_parameters_name:
+        arguments[template_parameters_name] = remove_ctgp_from_type(value)
+    elif "download" in template_parameters_name:
         arguments.pop("download")
         arguments = arguments | create_downloads_dict(value)
     elif "source code" == template_parameters_name:

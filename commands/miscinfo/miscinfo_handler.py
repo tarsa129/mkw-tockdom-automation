@@ -22,9 +22,9 @@ def add_ids_by_pagename(pagename, new_arguments: dict, update_existing=False):
     response = tockdomwrite.edit_section(page_id, 0, template_text)
     print(response)
 
-def convert_to_template(page_id, page_text):
+def convert_to_template(page_id, page_name, page_text):
     distro_info = distro_page.get_distroinfo_table(page_text)
-    distro_info_arguments = distro_page.get_distroinfo_arguments(distro_info)
+    distro_info_arguments = distro_page.get_distroinfo_arguments(distro_info, page_name)
     template_text = distro_page.create_distroinfo_template(distro_info_arguments)
     section_text = str(distro_page.edit_distroinfo_section(page_text, template_text))
     print(section_text)
@@ -33,8 +33,9 @@ def convert_to_template(page_id, page_text):
 
 def convert_to_template_from_entry(page_entry):
     page_id = page_entry["pageid"]
+    page_name = page_entry["title"]
     page_text:str = page_entry["revisions"][0]["slots"]["main"]["content"]
-    convert_to_template(page_id, page_text)
+    convert_to_template(page_id, page_name, page_text)
 
 def convert_to_template_from_pagename(page_name):
     tockdom_response = tockdomread.get_page_text_by_name(page_name)
@@ -47,11 +48,11 @@ def convert_to_template_bulk(category_name):
             convert_to_template_from_entry(page_entry)
             success_count += 1
         except Exception as e:
-            break
+            continue
         if success_count >= 20:
             break
 
 def handle_command(action, file):
-    #convert_to_template("KartRider Music Pack")
-    convert_to_template_bulk("Distribution/Music")
+    #convert_to_template_from_pagename("Falco's Texture Pack")
+    convert_to_template_bulk("Distribution")
     #add_ids_by_pagename("User:Tarsa129/Test", {"wbz-id": "129129", "image-id":"129130", "download 1": "invalid"})
