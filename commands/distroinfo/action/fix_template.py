@@ -15,7 +15,7 @@ def fix_template(page_id, page_name, page_text):
     section_text = str(page_edit.replace_template(page_text, template_text))
     print(section_text)
     response = tockdomwrite.edit_section(page_id, 0, section_text, "Fix template (via API)")
-    print(response)
+    print(response.json())
     was_successful = response.json()["edit"]["result"] == "Success"
     return was_successful
 

@@ -6,4 +6,4 @@ def handle_command(args):
     if action == "convert":
         convert_to_template.get_action().action_from_category("Distribution")
     elif action == "fix":
-        fix_template.get_action().action_from_category("Distribution", 1)
+        fix_template.get_action().action_from_category("Category", bulk_count=20, skip_until="")
