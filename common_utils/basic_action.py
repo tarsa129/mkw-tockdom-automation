@@ -21,9 +21,9 @@ class BasicAction:
         except Exception as e:
             return False
 
-    def action_from_category(self, category_name, bulk_count=UPDATE_COUNT):
+    def action_from_category(self, category_name, bulk_count=UPDATE_COUNT, skip_until=None):
         success_count = 0
-        for page_entry in tockdomread_category.get_page_entries_of_category(category_name):
+        for page_entry in tockdomread_category.get_page_entries_of_category(category_name, skip_until):
             was_successful = self.action_from_category_single(page_entry)
             if was_successful:
                 success_count += 1

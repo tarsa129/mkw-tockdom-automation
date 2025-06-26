@@ -36,11 +36,13 @@ def get_pageids_of_category(category_name):
 
         last_continue = response['continue']
 
-def get_pageid_batch(category_name):
+def get_pageid_batch(category_name, skip_until):
     page_ids = []
 
     i = 0
     for page_id in get_pageids_of_category(category_name):
+        if skip_until and page_id['title'] < skip_until:
+            continue
         page_ids.append(page_id)
         i += 1
         if i >= TRACKPAGE_BULKCOUNT:
@@ -50,8 +52,8 @@ def get_pageid_batch(category_name):
             yield page_ids_copy
     yield page_ids
 
-def get_page_entries_of_category(category_name):
-    for page_batch in get_pageid_batch(category_name):
+def get_page_entries_of_category(category_name, skip_until = None):
+    for page_batch in get_pageid_batch(category_name, skip_until):
         page_ids = [entry['pageid'] for entry in page_batch]
         for page_entry in get_page_text_by_pageids(page_ids):
             yield page_entry
