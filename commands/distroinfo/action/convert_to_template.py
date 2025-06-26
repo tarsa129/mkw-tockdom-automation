@@ -1,5 +1,5 @@
 from tockdomio import tockdomread, tockdomwrite, tockdomread_category
-from commands.miscinfo import distro_page_distroinfo as distro_page
+from commands.distroinfo.utils import distro_page_distroinfo as distro_page
 
 def convert_to_template(page_id, page_name, page_text):
     distro_info = distro_page.get_distroinfo_table(page_text)

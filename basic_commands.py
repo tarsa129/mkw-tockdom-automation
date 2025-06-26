@@ -1,5 +1,6 @@
 from commands.miscinfo import miscinfo_handler
 from commands.distros import distros_handler
+from commands.distroinfo import distroinfo_handler
 
 if __name__ == "__main__":
     import argparse
@@ -18,3 +19,5 @@ if __name__ == "__main__":
         distros_handler.handle_command(args)
     elif commandgroup.lower() == "miscinfo":
         miscinfo_handler.handle_command(args.action, args.file)
+    elif commandgroup.lower() =="distroinfo":
+        distroinfo_handler.handle_command()
