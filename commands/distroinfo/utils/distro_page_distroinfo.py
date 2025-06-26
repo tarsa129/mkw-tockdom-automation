@@ -1,4 +1,3 @@
-from trackpage.wiiki_page_parse import get_first_section_from_page, read_table_sidecaption
 from trackpage.mediawikiparse import read_text, WikiList, WikiText, ExternalLink
 
 import re
@@ -8,10 +7,6 @@ caption_to_argument = {"authors": "author", "battle": "arenas", "supported regio
                        "wiimmfi region": "region", "wiimmfi regions": "region", "[[custom track regions|online region]]": "region",
                        "languages": "language",
                        "date of latest version": "date of release"}
-
-def get_distroinfo_table(page_text):
-    first_section = get_first_section_from_page(page_text)
-    return read_table_sidecaption(first_section)
 
 def extract_download_link(download_extlink_text):
     download_extlinks = read_text(download_extlink_text).external_links
