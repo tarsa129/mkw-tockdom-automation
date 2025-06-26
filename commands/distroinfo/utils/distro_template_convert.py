@@ -1,4 +1,5 @@
 from trackpage.mediawikiparse import read_text, WikiList, WikiText, ExternalLink
+from . import distro_template_fix
 
 import re
 
@@ -77,26 +78,11 @@ def get_distroinfo_arguments(distrotable_info: dict, page_name: str):
 
     return arguments
 
-
-def remove_ctgp_from_type(value):
-    #going to be annoying without the ability to read nodes.
-    if "CTGP Revolution" not in value:
-        return value
-    if "My Stuff" in value:
-        value = str(re.sub("\[\[CTGP Revolution\]\](, )?", "", value))
-        value = value.strip(", ")
-    else:
-        value = str(re.sub("CTGP Revolution", "My Stuff", value))
-    return value
-
 def assign_value_to_template(arguments, template_parameters_name, value, page_name):
     if "name" == template_parameters_name:
-        if value == "{{PAGENAME}}" or value == page_name:
-            arguments[template_parameters_name] = "{{PAGENAME}}"
-        else:
-            raise RuntimeError("Not valid name")
+        arguments[template_parameters_name] = distro_template_fix.get_pagename(value, page_name)
     elif "type" == template_parameters_name:
-        arguments[template_parameters_name] = remove_ctgp_from_type(value)
+        arguments[template_parameters_name] = distro_template_fix.remove_ctgp_from_type(value)
     elif "download" in template_parameters_name:
         arguments.pop("download")
         arguments = arguments | create_downloads_dict(value)
