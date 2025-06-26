@@ -12,6 +12,8 @@ def convert_to_template(page_id, page_name, page_text):
     print(section_text)
     response = tockdomwrite.edit_section(page_id, 0, section_text, "Convert to Distro-Info template (via API)")
     print(response.json())
+    was_successful = response.json()["edit"]["result"] == "Success"
+    return was_successful
 
 def get_action():
     return BasicAction(convert_to_template)
