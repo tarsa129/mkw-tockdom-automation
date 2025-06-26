@@ -20,4 +20,4 @@ if __name__ == "__main__":
     elif commandgroup.lower() == "miscinfo":
         miscinfo_handler.handle_command(args.action, args.file)
     elif commandgroup.lower() =="distroinfo":
-        distroinfo_handler.handle_command()
+        distroinfo_handler.handle_command(args)
