@@ -17,9 +17,15 @@ def read_wiikilink(wiikilink: WikiLink):
         return str(wiikilink.title), str(wiikilink.title)
 
 def read_template(text: str):
-    template: Template = [node for node in wtparser.parse(text).nodes if isinstance(node, Template)][0]
+    if not isinstance(text, WikiText):
+        text = read_text(text)
+    templates = text.templates
+    if not templates:
+        raise RuntimeError("No templates found in text.")
+
+    template: Template = templates[0]
     template_info = {}
-    for param in template.parameters:
+    for param in template.arguments:
         template_info[str(param.name)] = str(param.plain_text).strip()
     return template_info
 
