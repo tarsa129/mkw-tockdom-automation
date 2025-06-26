@@ -26,7 +26,7 @@ def read_template(text: str):
     template: Template = templates[0]
     template_info = {}
     for param in template.arguments:
-        template_info[str(param.name)] = str(param.plain_text).strip()
+        template_info[str(param.name)] = str(param.value).strip()
     return template_info
 
 def read_list(text: str):
