@@ -3,7 +3,7 @@ from commands.distro_list.utils.distros_list_create import validate_distros, com
 from tockdomio import tockdomwrite, tockdomread
 
 def read_and_update_page(tockdom_response, new_distros, action):
-    if not (validate_distros):
+    if not validate_distros(new_distros):
         raise RuntimeError("List of distro_list to add has repeats")
     if not "pageid" in tockdom_response:
         raise RuntimeError("Page with name {} does not exist".format(tockdom_response["title"]))
