@@ -1,4 +1,5 @@
 import unittest
+import warnings
 
 import commands.distro_list.action.edit_distros_list as edl
 from commands.distro_list.utils.distro_list_enums import Action
@@ -14,8 +15,10 @@ class TestEditDistrosList(unittest.TestCase):
     def test_read_and_update_page_invalid_new_distros(self):
         mock_tockdom_response = {"pageid":"129"}
         mock_new_distros = {"Distro Name":"", "distro name":""}
-        self.assertRaises(RuntimeError, edl.read_and_update_page,
-                          mock_tockdom_response, mock_new_distros, Action.ADD)
+        with warnings.catch_warnings(record=True) as w:
+            self.assertRaises(RuntimeError, edl.read_and_update_page,
+                              mock_tockdom_response, mock_new_distros, Action.ADD)
+            self.assertEqual(len(w), 1)
 
 
 if __name__ == '__main__':
