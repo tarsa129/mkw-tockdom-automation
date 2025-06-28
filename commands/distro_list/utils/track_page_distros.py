@@ -24,7 +24,7 @@ def get_distros_from_section(section_text: WikiText):
     for item in raw_distro_list.items:
         distro_name = read_distro_name(item)
         if distro_name is None:
-            warnings.warn("(none) distribution after {} valid distros".format(len(parsed_distro_list)))
+            warnings.warn("(none) distribution after {} valid distro_list".format(len(parsed_distro_list)))
             return parsed_distro_list
         parsed_distro_list[distro_name] = item.strip()
     return parsed_distro_list

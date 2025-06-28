@@ -3,8 +3,8 @@ import csv
 import warnings
 from collections import defaultdict
 
-from trackpage import mediawikiparse as mwp
-from commands.distros import track_page_distros
+from commands.distros.utils import track_page_distros
+
 
 def parse_row(i, row):
     if len(row) == 0:
@@ -14,7 +14,7 @@ def parse_row(i, row):
         warnings.warn("Line #{} contains an empty page name".format(i))
         return None, None
     elif len(row) == 1:
-        warnings.warn("Line #{} for pagename {} does not contain distros".format(i, row[0]))
+        warnings.warn("Line #{} for pagename {} does not contain distro_list".format(i, row[0]))
         return None, None
 
     pagename = row[0]

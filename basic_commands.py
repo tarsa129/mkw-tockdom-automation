@@ -1,5 +1,5 @@
 from commands.miscinfo import miscinfo_handler
-from commands.distros import distros_handler
+from commands.distro_list import distro_list_handler
 from commands.distroinfo import distroinfo_handler
 from common_utils.execution_arguments import combine_arguments
 
@@ -7,8 +7,8 @@ from common_utils.file_reader import read_csv_file
 
 def call_command_action(args):
     command_group = args["commandgroup"]
-    if command_group.lower() == "distros":
-        distros_handler.handle_command(args)
+    if command_group.lower() == "distro_list":
+        distro_list_handler.handle_command(args)
     elif command_group.lower() == "miscinfo":
         miscinfo_handler.handle_command(args)
     elif command_group.lower() == "distroinfo":

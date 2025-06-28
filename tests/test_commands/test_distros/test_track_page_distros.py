@@ -2,7 +2,7 @@ import unittest
 import unittest.mock as mock
 import warnings
 
-import commands.distros.track_page_distros as tpd
+import commands.distros.utils.track_page_distros as tpd
 import wikitextparser as wtp
 
 class TestTrackPageHandler(unittest.TestCase):
