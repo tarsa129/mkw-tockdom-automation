@@ -21,3 +21,5 @@ if __name__ == "__main__":
         miscinfo_handler.handle_command(args.action, args.file)
     elif commandgroup.lower() =="distroinfo":
         distroinfo_handler.handle_command(args)
+    if args.file:
+        additional_args = read_csv_file(args.file)
