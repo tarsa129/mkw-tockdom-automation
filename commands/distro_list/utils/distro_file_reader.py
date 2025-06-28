@@ -3,7 +3,7 @@ import csv
 import warnings
 from collections import defaultdict
 
-from commands.distros.utils import track_page_distros
+from commands.distro_list.utils import track_page_distros
 
 
 def parse_row(i, row):
