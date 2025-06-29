@@ -2,7 +2,7 @@ from tockdomio import tockdomwrite
 from commands.distroinfo.utils import distro_template_convert as distro_page
 from commands.distroinfo.utils import distro_page_edit as page_edit
 from commands.distroinfo.utils import distro_page_read as page_read
-from common_utils.basic_action import BasicAction
+from common_utils.base_category_action import BaseCategoryAction
 
 def convert_to_template(page_id, page_name, page_text):
     distro_info = page_read.get_distroinfo_table(page_text)
@@ -16,4 +16,4 @@ def convert_to_template(page_id, page_name, page_text):
     return was_successful
 
 def get_action():
-    return BasicAction(convert_to_template)
+    return BaseCategoryAction(convert_to_template)

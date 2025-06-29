@@ -1,7 +1,7 @@
 from tockdomio import tockdomread, tockdomread_category
 from constants import UPDATE_COUNT
 
-class BasicAction:
+class BaseCategoryAction:
     def __init__(self, action_function):
         self.action = action_function
 

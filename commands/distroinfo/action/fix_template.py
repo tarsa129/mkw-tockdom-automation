@@ -1,4 +1,4 @@
-from common_utils.basic_action import BasicAction
+from common_utils.base_category_action import BaseCategoryAction
 from tockdomio import tockdomwrite
 from commands.distroinfo.utils import distro_template_fix as template_fix
 from commands.distroinfo.utils import distro_page_edit as page_edit
@@ -20,4 +20,4 @@ def fix_template(page_id, page_name, page_text):
     return was_successful
 
 def get_action():
-    return BasicAction(fix_template)
+    return BaseCategoryAction(fix_template)
