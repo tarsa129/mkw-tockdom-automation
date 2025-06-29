@@ -45,7 +45,7 @@ def read_table_sidecaption(text, caption=None):
 
     all_table_rows = table.data()
 
-    data = {"name": table.caption}
+    data = {"name": table.caption.strip()}
 
     for row in all_table_rows:
         caption = row[0].strip()
