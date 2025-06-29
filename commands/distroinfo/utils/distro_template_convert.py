@@ -1,4 +1,4 @@
-from trackpage.mediawikiparse import read_text, WikiList, WikiText, ExternalLink
+from mediawiki.mediawiki_read import read_text, WikiList, WikiText, ExternalLink
 from . import distro_template_fix
 
 import re

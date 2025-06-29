@@ -1,5 +1,5 @@
-from trackpage.mediawiki_create import *
-from trackpage.wiiki_page_parse import get_first_section_from_page, get_table, get_template_with_name
+from mediawiki.mediawiki_create import *
+from mediawiki.mediawiki_parse import get_first_section_from_page, get_table, get_template_with_name
 
 def create_distroinfo_template(arguments):
     return create_template_from_args(arguments, "Distribution-Info")

@@ -1,6 +1,5 @@
-from trackpage.mediawikiparse import *
-from trackpage.mediawiki_create import *
-from trackpage.wiiki_page_parse import *
+from mediawiki.mediawiki_create import *
+from mediawiki.mediawiki_parse import *
 import warnings
 
 def get_ordered_miscinfo_arguments():

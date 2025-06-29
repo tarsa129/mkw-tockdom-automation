@@ -1,5 +1,5 @@
-from trackpage.mediawikiparse import *
-from trackpage.wiiki_page_parse import get_section_from_page
+from mediawiki.mediawiki_read import *
+from mediawiki.mediawiki_parse import get_section_from_page, read_wikilink
 import warnings
 
 def read_distro_name(item):
@@ -9,7 +9,7 @@ def read_distro_name(item):
     item_parsed: WikiText = read_text(item)
     if len(item_parsed.wikilinks) > 0:
         distro_wikilink = item_parsed.wikilinks[0]
-        _, distro_name = read_wiikilink(distro_wikilink)
+        _, distro_name = read_wikilink(distro_wikilink)
     elif len(item_parsed.templates) > 0:
         distro_template = item_parsed.templates[0]
         assert(distro_template.name == "Distrib-ref")

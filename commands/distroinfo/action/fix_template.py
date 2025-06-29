@@ -3,7 +3,7 @@ from tockdomio import tockdomwrite
 from commands.distroinfo.utils import distro_template_fix as template_fix
 from commands.distroinfo.utils import distro_page_edit as page_edit
 from commands.distroinfo.utils import distro_page_read as page_read
-from trackpage.mediawikiparse import read_template
+from mediawiki.mediawiki_parse import read_template
 
 def fix_template(page_id, page_name, page_text):
     template_text = str(page_read.get_distroinfo_template(page_text))
