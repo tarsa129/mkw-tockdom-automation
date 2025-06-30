@@ -1,6 +1,7 @@
 from commands.miscinfo import miscinfo_handler
 from commands.distro_list import distro_list_handler
 from commands.distroinfo import distroinfo_handler
+from commands.track_slot import track_slot_handler
 from common_utils.execution_arguments import combine_arguments
 
 from common_utils.file_reader import read_csv_file
@@ -13,6 +14,8 @@ def call_command_action(command_args):
         miscinfo_handler.handle_command(command_args)
     elif command_group.lower() == "distroinfo":
         distroinfo_handler.handle_command(command_args)
+    elif command_group.lower() == "track_slot":
+        track_slot_handler.handle_command(command_args)
 
 if __name__ == "__main__":
     import argparse
