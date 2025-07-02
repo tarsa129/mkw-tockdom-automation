@@ -6,8 +6,12 @@ def do_szslibrary_query(base_params):
         'User-Agent': SZSLIBRARY_API_KEY,
     }
 
-    response = requests.get(SZSLIBRARY_API, headers=headers, params=base_params)
-    return response.json()
+    try:
+        response = requests.get(SZSLIBRARY_API, headers=headers, params=base_params)
+        return response.json()
+    except:
+        return None
+
 
 def get_by_wbz_id(wbz_id):
     base_params = {
