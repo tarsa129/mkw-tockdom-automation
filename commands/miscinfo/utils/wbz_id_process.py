@@ -44,7 +44,7 @@ def get_wbz_info(wbz_id):
         return None
 
     page_id = track_info["track_wiki"]
-    track_name = f"{track_info['prefix']} {track_info['trackname']} {track_info['track_version']}"
+    track_name = f"{track_info['prefix']} {track_info['trackname']} {track_info['track_version']}".strip()
     orig_wbz_id = track_info["track_family"]
 
     return WBZInfo(page_id, track_name, orig_wbz_id, wbz_id)
