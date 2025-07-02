@@ -26,18 +26,41 @@ def get_first_section_from_page(page_text):
         page_text = read_text(page_text)
     return page_text.sections[0]
 
-def get_section_from_page(page_text, section_name):
+def get_section_info_from_page(page_text, section_name, loose=False):
     if not isinstance(page_text, WikiText):
         page_text = read_text(page_text)
 
     def check_section_title(section: Section):
         return section.title and section.title.strip() == section_name
 
-    valid_sections = list(filter(lambda x: check_section_title(x), page_text.sections))
-    if len(valid_sections) != 1:
-        raise RuntimeError(f"Page has an invalid number of sections with name {section_name}.")
+    def check_section_title_loose(section: Section):
+        return section.title and section_name.strip().lower() in section.title.lower()
 
-    return valid_sections[0]
+    checking_function = check_section_title_loose if loose else check_section_title
+
+    section_index, section_object = -1, None
+
+    for i, curr_section in enumerate(page_text.sections):
+        if not checking_function(curr_section):
+            continue
+        if section_index == -1:
+            section_index, section_object = i, curr_section
+        else:
+            raise RuntimeError(f"Page has an invalid number of sections with name {section_name}.")
+
+    if section_index != -1:
+        return section_index, section_object
+
+    raise RuntimeError(f"Page has an no sections with name {section_name}.")
+
+
+def get_sectionid_from_page(page_text, section_name, loose=False):
+    section_id, _ = get_section_info_from_page(page_text, section_name, loose)
+    return section_id
+
+def get_section_from_page(page_text, section_name, loose=False):
+    _, section = get_section_info_from_page(page_text, section_name, loose)
+    return section
 
 def get_template_with_name(page_text, template_name):
     if not isinstance(page_text, WikiText):
