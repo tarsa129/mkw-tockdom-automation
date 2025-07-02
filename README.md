@@ -7,6 +7,7 @@ The [moderators of the Custom Mario Kart Wiiki](https://wiki.tockdom.com/wiki/He
 ### Obsolete (One-Time Conversions)
 * Conversion of tables to Distribution-Info template on most distribution pages.
 * Fixup of Distribution-Info templates to utilize {{PAGENAME}} template and convert CTGP Revolution type to My Stuff. 
+* Conversion of slot information text to Slot-Info template. 
 
 ### In-Progress
 * Update of track page distribution lists

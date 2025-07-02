@@ -27,5 +27,5 @@ class BaseCategoryAction:
             was_successful = self.action_from_category_single(page_entry)
             if was_successful:
                 success_count += 1
-            if success_count >= bulk_count - 1:
+            if success_count >= bulk_count:
                 break
