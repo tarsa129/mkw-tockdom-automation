@@ -41,3 +41,14 @@ def patch_miscinfo_template(arguments, new_arguments, update_existing):
 
 def create_miscinfo_template(arguments: dict):
     return create_template_from_args(arguments, "Misc-Info")
+
+def replace_miscinfo_template(page_text, template_text):
+    section = get_first_section_from_page(page_text)
+    template: Template = get_template_with_name(section, "Misc-Info")
+
+    if len(section.contents) == len(template) + 2:
+        section.contents = template_text + "\n"
+    else:
+        template.string = template_text
+
+    return str(section)

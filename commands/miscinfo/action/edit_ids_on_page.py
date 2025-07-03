@@ -8,14 +8,18 @@ def add_ids_by_pageid(page_id, page_text, new_arguments: dict, update_existing=F
     arguments = track_page.get_miscinfo_template(page_text)
     track_page.patch_miscinfo_template(arguments, new_arguments, update_existing)
     template_text = track_page.create_miscinfo_template(arguments)
-    response = tockdomwrite.edit_section(page_id, 0, template_text)
-    print(response)
+
+    section_text = str(track_page.replace_miscinfo_template(page_text, template_text))
+    print(section_text)
+
+    response = tockdomwrite.edit_section(page_id, 0, section_text, "Add miscinfo template (via API)")
+    print(response.json())
+    was_successful = response.json()["edit"]["result"] == "Success"
+    return was_successful
 
 def add_ids_from_file(filepath):
     wbzs_to_add: list[dict] = read_csv_file(filepath)
     for wbz_entry in wbzs_to_add:
-        page_id = wbz_entry["pageid"]
-        arguments = {"wbz_id": wbz_entry["wbz_id"], "image_id": wbz_entry["image_id"]}
         page_id = wbz_entry["page_id"]
         arguments = {"wbz-id": wbz_entry["wbz_id"], "image-id": wbz_entry["image_id"]}
         tockdom_response = tockdomread.get_page_text_by_id(page_id)
