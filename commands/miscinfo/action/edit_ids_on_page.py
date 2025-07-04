@@ -24,7 +24,7 @@ def add_ids_from_file(filepath):
         arguments = {"wbz-id": wbz_entry["wbz_id"], "image-id": wbz_entry["image_id"]}
         tockdom_response = tockdomread.get_page_text_by_id(page_id)
         page_text: str = tockdom_response["revisions"][0]["slots"]["main"]["content"]
-        add_ids_by_pageid(page_id, page_text, arguments, update_existing=False)
+        add_ids_by_pageid(page_id, page_text, arguments, update_wbz=False)
 
 def add_ids_by_pagename(pagename, new_arguments: dict, update_existing=False):
     tockdom_response = tockdomread.get_page_text_by_name(pagename)

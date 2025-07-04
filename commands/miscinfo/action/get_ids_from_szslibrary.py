@@ -1,4 +1,4 @@
-from tockdomio import szslibrary_read
+from common_utils.szslibrary_helpers import validate_start_end_wbz_ids
 from commands.miscinfo.utils.wbz_id_process import *
 from commands.miscinfo.utils.wbz_file_write import write_wbz_file
 
