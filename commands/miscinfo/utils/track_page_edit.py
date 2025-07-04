@@ -3,7 +3,7 @@ from mediawiki.mediawiki_read import get_template_with_name, get_first_section_f
 from wikitextparser import Template
 import warnings
 
-def patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz):
+def patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz = False):
     curr_wbz_id = arguments["wbz-id"]
     new_wbz_id = new_arguments["wbz-id"]
 
@@ -13,10 +13,8 @@ def patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz):
         arguments["wbz-id"] = new_wbz_id
 
     new_image_id = new_arguments["image-id"]
-    if new_image_id != new_wbz_id:
+    if new_image_id and new_image_id != new_wbz_id:
         arguments["image-id"] = new_image_id
-    else:
-        arguments["image-id"] = None
 
 def create_miscinfo_template(arguments: dict):
     return create_template_from_args(arguments, "Misc-Info")
