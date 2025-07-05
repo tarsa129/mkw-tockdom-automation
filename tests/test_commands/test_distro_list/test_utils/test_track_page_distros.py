@@ -6,6 +6,26 @@ import commands.distro_list.utils.track_page_distros as tpd
 import wikitextparser as wtp
 
 class TestTrackPageHandler(unittest.TestCase):
+    def test_fix_distro_custom_name(self):
+        orig_name = "Tarsa's Epic Track Pack"
+        new_name = tpd.fix_distro_custom_name(orig_name)
+        self.assertEqual(orig_name, new_name)
+
+    def test_fix_distro_custom_name_the(self):
+        orig_name = "The Tarsa's Epic Track Pack"
+        new_name = tpd.fix_distro_custom_name(orig_name)
+        self.assertEqual(new_name, "Tarsa's Epic Track Pack")
+
+    def test_fix_distro_custom_name_all_lower(self):
+        orig_name = "debut pack"
+        new_name = tpd.fix_distro_custom_name(orig_name)
+        self.assertEqual(orig_name, new_name)
+
+    def test_fix_distro_custom_name_all_upper_later(self):
+        orig_name = "debut Pack"
+        new_name = tpd.fix_distro_custom_name(orig_name)
+        self.assertEqual("Pack", new_name)
+
     def test_read_distro_name_wiikilink(self):
         actual_distro_name = "Distro Name"
         distro_text = f"[[{actual_distro_name}]]"
