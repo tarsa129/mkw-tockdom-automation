@@ -25,7 +25,6 @@ def validate_start_end_wbz_ids(start_id, end_id):
 
     return True
 
-
 def get_track_info(wbz_id):
     szslibrary_response = szslibrary_read.get_by_wbz_id(wbz_id)
     if not szslibrary_response or not szslibrary_response["track_info"]:
@@ -36,3 +35,22 @@ def get_track_info(wbz_id):
         return None
 
     return track_info[0]
+
+def get_full_trackname(track_info):
+    track_name = f"{track_info['trackname']}".strip()
+    prefix = track_info['prefix']
+    if prefix:
+        track_name = f"{prefix} {track_name}"
+    return track_name
+
+def get_full_versionname(track_info):
+    version_name = f"{track_info['track_version']}".strip()
+    version_extra = track_info['track_version_extra']
+    if version_extra:
+        version_name = f"{version_name}-{version_extra}"
+    return version_name
+
+def get_full_trackname_version(track_info):
+    track_name = get_full_trackname(track_info)
+    version_name = get_full_versionname(track_info)
+    return f"{track_name} {version_name}"
