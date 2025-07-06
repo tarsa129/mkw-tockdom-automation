@@ -2,6 +2,19 @@ from mediawiki.mediawiki_read import *
 from mediawiki.mediawiki_parse import get_section_from_page, read_wikilink
 import warnings
 
+def fix_distro_custom_name(distro_name):
+    if distro_name.startswith("The "):
+        return distro_name[4:]
+
+    if distro_name.islower() or distro_name[0].isdigit():
+        return distro_name
+
+    for i in range(len(distro_name)):
+        if distro_name[i].isupper():
+            return distro_name[i:]
+
+    return distro_name
+
 def read_distro_name(item):
     if str(item).strip() == "(none)":
         return None
@@ -15,7 +28,7 @@ def read_distro_name(item):
         assert(distro_template.name == "Distrib-ref")
         assert(len(distro_template.arguments) == 3)
         distro_name = distro_template.arguments[0].value
-    return distro_name
+    return fix_distro_custom_name(distro_name)
 
 def get_distros_from_section(section_text: WikiText):
     assert(len(section_text.get_lists()) == 1)
