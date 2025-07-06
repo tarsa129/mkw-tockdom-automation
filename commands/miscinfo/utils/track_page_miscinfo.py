@@ -17,9 +17,13 @@ def get_miscinfo_template(page_text):
 
     arguments = get_ordered_miscinfo_arguments()
     for argument in miscinfo_template.arguments:
-        if argument.name not in arguments:
-            warnings.warn("{} is not a valid miscinfo argument".format(argument.name))
+        converted_arg_name = argument.name.strip()
+        if converted_arg_name not in arguments:
+            warnings.warn(f"{converted_arg_name} is not a valid miscinfo argument")
             continue
-        arguments[argument.name] = argument.value.strip()
+
+        if argument.name not in arguments:
+            warnings.warn(f"{argument.name} has leading whitespace, which will be fixed")
+        arguments[converted_arg_name] = argument.value.strip()
 
     return arguments
