@@ -12,7 +12,7 @@ def add_ids_by_pageid(page_id, page_text, new_arguments: dict, update_wbz=False)
     section_text = str(track_edit.replace_miscinfo_template(page_text, template_text))
     print(section_text)
 
-    response = tockdomwrite.edit_section(page_id, 0, section_text, "Add wbz and image ids to template (via API)")
+    response = tockdomwrite.edit_section(page_id, 0, section_text, "Add wbz/image ids to template (via API)")
     print(response.json())
     was_successful = response.json()["edit"]["result"] == "Success"
     return was_successful
