@@ -6,7 +6,7 @@ def fix_distro_custom_name(distro_name):
     if distro_name.startswith("The "):
         return distro_name[4:]
 
-    if distro_name.islower():
+    if distro_name.islower() or distro_name[0].isdigit():
         return distro_name
 
     for i in range(len(distro_name)):

@@ -26,6 +26,11 @@ class TestTrackPageHandler(unittest.TestCase):
         new_name = tpd.fix_distro_custom_name(orig_name)
         self.assertEqual("Pack", new_name)
 
+    def test_fix_distro_custom_name_number(self):
+        orig_name = "0 debut Pack"
+        new_name = tpd.fix_distro_custom_name(orig_name)
+        self.assertEqual(orig_name, new_name)
+
     def test_read_distro_name_wiikilink(self):
         actual_distro_name = "Distro Name"
         distro_text = f"[[{actual_distro_name}]]"
