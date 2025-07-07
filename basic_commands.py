@@ -1,6 +1,7 @@
 from commands.miscinfo import miscinfo_handler
 from commands.distro_list import distro_list_handler
 from commands.distroinfo import distroinfo_handler
+from commands.szslibrary import szslibrary_handler
 from commands.track_slot import track_slot_handler
 from common_utils.execution_arguments import combine_arguments
 
@@ -16,6 +17,8 @@ def call_command_action(command_args):
         distroinfo_handler.handle_command(command_args)
     elif command_group.lower() == "track_slot":
         track_slot_handler.handle_command(command_args)
+    elif command_group.lower() == "szslibrary":
+        szslibrary_handler.handler.handle_action(command_args)
 
 if __name__ == "__main__":
     import argparse
