@@ -1,5 +1,7 @@
-from mediawiki.mediawiki_parse import *
 import warnings
+
+from mediawiki.mediawiki_read import get_template_with_name
+
 
 def get_ordered_miscinfo_arguments():
     arguments = {}
