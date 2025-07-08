@@ -9,3 +9,15 @@ CATEGORYLIST_BULKCOUNT = 500
 TRACKPAGE_BULKCOUNT = 50
 
 UPDATE_COUNT = 20
+
+#SZS Library constants
+SZSLIB_TRACK = "track_customtrack"
+SZSLIB_BATTLE = "track_customarena"
+SZSLIB_TEXTURE = "track_texturehack"
+SZSLIB_EDIT = "track_change"
+SZSLIB_NINTENDO = "track_nintendo"
+
+#Category name constants
+CATEGORY_CUSTOM = "Custom"
+CATEGORY_EDIT = "Edit"
+CATEGORY_TEXTURE = "Texture"
