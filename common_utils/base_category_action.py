@@ -20,7 +20,7 @@ class BaseCategoryAction:
         try:
             return self.action_from_entry(page_entry, **kwargs)
         except Exception as e:
-            return False
+            return None
 
     def action_from_category(self, category_name, bulk_count=UPDATE_COUNT, skip_until=None, **kwargs):
         success_count = 0
@@ -37,7 +37,7 @@ class BaseCategoryAction:
         for page_entry in tockdomread_category.get_page_entries_of_category(category_name, skip_until):
             entry_to_write = self.action_from_category_single(page_entry, **kwargs)
             if entry_to_write:
-                entries_to_write.append(entry_to_write)
+                entries_to_write.extend(entry_to_write)
             if len(entries_to_write) >= bulk_count:
                 break
 
