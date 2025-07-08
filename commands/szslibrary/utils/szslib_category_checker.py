@@ -26,7 +26,7 @@ def check_has_wbz_id(arguments, page_name):
 
 def check_custom_status(track_status, track_info, page_name):
     audit_entry = AuditSzsLibraryEntry(track_info[SZSLIB_WBZID], page_name)
-    is_nintendo = track_info[SZSLIB_NINTENDO] == "1"
+    is_nintendo = str(track_info[SZSLIB_NINTENDO]) == "1"
     if track_status == CATEGORY_CUSTOM and is_nintendo:
         audit_entry.set_should_be_false(SZSLIB_NINTENDO)
     elif track_status != CATEGORY_CUSTOM and not is_nintendo:
@@ -35,8 +35,8 @@ def check_custom_status(track_status, track_info, page_name):
 
 def check_track_modification(track_modification, track_info, page_name):
     audit_entry = AuditSzsLibraryEntry(track_info[SZSLIB_WBZID], page_name)
-    is_edit = track_info[SZSLIB_EDIT] == "1"
-    is_texture = track_info[SZSLIB_TEXTURE] == "1"
+    is_edit = str(track_info[SZSLIB_EDIT]) == "1"
+    is_texture = str(track_info[SZSLIB_TEXTURE]) == "1"
     if not track_modification and is_edit:
         audit_entry.set_should_be_false(SZSLIB_EDIT)
     elif not track_modification and is_texture:
@@ -47,7 +47,7 @@ def check_track_modification(track_modification, track_info, page_name):
         audit_entry.set_should_be_false(SZSLIB_TEXTURE)
     elif track_modification == CATEGORY_TEXTURE and not is_texture:
         audit_entry.set_should_be_true(SZSLIB_TEXTURE)
-    elif track_modification== CATEGORY_TEXTURE and not is_edit:
+    elif track_modification == CATEGORY_TEXTURE and is_edit:
         audit_entry.set_should_be_false(SZSLIB_EDIT)
     return audit_entry.get_if_has_audit_info()
 

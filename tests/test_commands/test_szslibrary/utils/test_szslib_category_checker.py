@@ -81,6 +81,12 @@ class TestSzsLibCategoryChecker(unittest.TestCase):
         self.assertEqual(audit_entry.faulty_column, SZSLIB_EDIT)
         self.assertTrue(audit_entry.suggested_value)
 
+    def test_check_track_modification_texture_valid(self):
+        track_modification = "Texture"
+        track_info = {SZSLIB_WBZID: "1291239", SZSLIB_EDIT: 0, SZSLIB_TEXTURE: 1}
+        audit_entry = scc.check_track_modification(track_modification, track_info, self.page_name)
+        self.assertIsNone(audit_entry)
+
     def test_check_track_modification_texture_invalid_none(self):
         track_modification = "Texture"
         track_info = {SZSLIB_WBZID: "1291239", SZSLIB_EDIT: "0", SZSLIB_TEXTURE: "0"}
@@ -88,6 +94,14 @@ class TestSzsLibCategoryChecker(unittest.TestCase):
         self.assertIsInstance(audit_entry, AuditSzsLibraryEntry)
         self.assertEqual(audit_entry.faulty_column, SZSLIB_TEXTURE)
         self.assertTrue(audit_entry.suggested_value)
+
+    def test_check_track_modification_texture_invalid_edit(self):
+        track_modification = "Texture"
+        track_info = {SZSLIB_WBZID: "1291239", SZSLIB_EDIT: 1, SZSLIB_TEXTURE: 1}
+        audit_entry = scc.check_track_modification(track_modification, track_info, self.page_name)
+        self.assertIsInstance(audit_entry, AuditSzsLibraryEntry)
+        self.assertEqual(audit_entry.faulty_column, SZSLIB_EDIT)
+        self.assertFalse(audit_entry.suggested_value)
 
 
 

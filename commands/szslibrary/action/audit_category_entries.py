@@ -6,6 +6,7 @@ from constants import CATEGORY_CUSTOM, CATEGORY_EDIT, CATEGORY_TEXTURE
 
 
 def audit_track_info(page_id, page_name, page_text, **kwargs):
+    print(page_name)
     arguments = misc_info_utils.get_miscinfo_template(page_text)
 
     has_wbz_audit = check_has_wbz_id(arguments, page_name)
