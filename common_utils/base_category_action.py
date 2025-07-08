@@ -1,3 +1,4 @@
+from common_utils.file_writer import write_csv_file
 from tockdomio import tockdomread, tockdomread_category
 from constants import UPDATE_COUNT
 
@@ -29,3 +30,16 @@ class BaseCategoryAction:
                 success_count += 1
             if success_count >= bulk_count:
                 break
+
+    def action_from_category_dump(self, category_name, bulk_count=UPDATE_COUNT, skip_until=None, dump_file_path = None):
+        entries_to_write = []
+
+        for page_entry in tockdomread_category.get_page_entries_of_category(category_name, skip_until):
+            entry_to_write = self.action_from_category_single(page_entry)
+            if entry_to_write:
+                entries_to_write.append(entry_to_write)
+            if len(entries_to_write) >= bulk_count:
+                break
+
+        if entries_to_write:
+            write_csv_file(dump_file_path, entries_to_write, )
