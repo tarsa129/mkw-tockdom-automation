@@ -5,7 +5,7 @@ from commands.track_slot.utils import section_text_parse as section_text_parse
 from tockdomio import tockdomwrite
 
 
-def convert_to_slot_template(page_id, page_name, page_text):
+def convert_to_slot_template(page_id, page_name, page_text, **kwargs):
     section_id, slot_section = page_read.get_slot_section_info(page_text)
     has_slot_template = page_read.has_slot_template(slot_section)
     if has_slot_template:

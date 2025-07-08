@@ -4,7 +4,7 @@ from commands.distroinfo.utils import distro_page_edit as page_edit
 from commands.distroinfo.utils import distro_page_read as page_read
 from common_utils.base_category_action import BaseCategoryAction
 
-def convert_to_template(page_id, page_name, page_text):
+def convert_to_template(page_id, page_name, page_text, **kwargs):
     distro_info = page_read.get_distroinfo_table(page_text)
     distro_info_arguments = distro_page.get_distroinfo_arguments(distro_info, page_name)
     template_text = page_edit.create_distroinfo_template(distro_info_arguments)
