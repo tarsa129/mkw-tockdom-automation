@@ -16,6 +16,7 @@ SZSLIB_BATTLE = "track_customarena"
 SZSLIB_TEXTURE = "track_texturehack"
 SZSLIB_EDIT = "track_change"
 SZSLIB_NINTENDO = "track_nintendo"
+SZSLIB_WBZID = "id_first"
 
 #Category name constants
 CATEGORY_CUSTOM = "Custom"
