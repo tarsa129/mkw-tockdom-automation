@@ -19,3 +19,18 @@ def get_by_wbz_id(wbz_id):
     }
 
     return do_szslibrary_query(base_params)
+
+def get_image_from_id(image_id):
+    image_id = str(image_id)
+    headers = {
+        'User-Agent': SZSLIBRARY_API_KEY,
+    }
+
+    url = f"{SZSLIBRARY_THUMBNAIL}{image_id[-2:]}/{image_id}.jpg"
+
+    try:
+        response = requests.get(url, headers=headers)
+        return response.raw
+    except Exception as e:
+        print(e)
+        return None
