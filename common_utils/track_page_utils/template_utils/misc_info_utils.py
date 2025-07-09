@@ -1,10 +1,12 @@
-from mediawiki.mediawiki_parse import *
 import warnings
+
+from mediawiki.mediawiki_read import get_template_with_name
+
 
 def get_ordered_miscinfo_arguments():
     arguments = {}
     expected_params = ["name", "image", "image-id", "creator", "author", "designer", "version", "date of release",
-                       "editors used", "video", "scale", "wbz-id", "download", "download 1", "download 2"]
+                       "editors used", "video", "scale", "wbz-id", "download", "download 1", "download 2", "download 3"]
     for expected_param in expected_params:
         arguments[expected_param] = None
 
