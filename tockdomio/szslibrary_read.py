@@ -30,6 +30,8 @@ def get_image_from_id(image_id):
 
     try:
         response = requests.get(url, headers=headers)
+        if response.status_code == 404:
+            return None
         return response.raw
     except Exception as e:
         print(e)
