@@ -39,6 +39,18 @@ class TestSlotTrackPageRead(unittest.TestCase):
         expected_info = {"advice":"only-work", "slot": "5.2"}
         self.assertDictEqual(actual_info, expected_info)
 
+    def test_read_slot_text_slot_text(self):
+        section_text = "It is recommended to put this track on the [[Slot#7.3|<small>N64</small> DK's Jungle Parkway slot]] or the [[Slot#8.3|<small>GCN</small> DK Mountain slot]] because of the dirt GFX."
+        actual_info = stp.read_slot_text(section_text)
+        expected_info = {"slot": "7.3", "slot2": "8.3", "reason":"the dirt GFX"}
+        self.assertDictEqual(actual_info, expected_info)
+
+    def test_read_slot_text_slot_basic(self):
+        section_text = "It is recommended to put this track on [[slot]] [[slot#6.4|6.4]]."
+        actual_info = stp.read_slot_text(section_text)
+        expected_info = {"slot": "6.4"}
+        self.assertDictEqual(actual_info, expected_info)
+
     def test_read_slot_text_versions_four(self):
         section_text = 'It is recommended to put this track on the [[Slot#1.1|Grumble Volcano slot]], [[Slot#2.2|Grumble Volcano slot]], [[Slot#3.3|Grumble Volcano slot]], or [[Slot#4.4|<small>ds</small>Grumble Volcano slot]].'
         actual_info = stp.read_slot_text(section_text)
