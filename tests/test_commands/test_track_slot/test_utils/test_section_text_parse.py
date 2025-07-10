@@ -9,6 +9,12 @@ class TestSlotTrackPageRead(unittest.TestCase):
         expected_info = {"slot": "5.2"}
         self.assertDictEqual(actual_info, expected_info)
 
+    def test_read_slot_text_arena(self):
+        section_text = "It is recommended to put this arena on the [[Slot#5.2|<small>DS</small> Yoshi Falls slot]]."
+        actual_info = stp.read_slot_text(section_text)
+        expected_info = {"type":"arena", "slot": "5.2"}
+        self.assertDictEqual(actual_info, expected_info)
+
     def test_read_slot_text_mandatory(self):
         section_text = "It is mandatory to put this track on the [[Slot#5.2|<small>DS</small> Yoshi Falls slot]]."
         actual_info = stp.read_slot_text(section_text)
@@ -52,9 +58,9 @@ class TestSlotTrackPageRead(unittest.TestCase):
         self.assertDictEqual(actual_info, expected_info)
 
     def test_read_slot_text_versions_four(self):
-        section_text = 'It is recommended to put this track on the [[Slot#1.1|Grumble Volcano slot]], [[Slot#2.2|Grumble Volcano slot]], [[Slot#3.3|Grumble Volcano slot]], or [[Slot#4.4|<small>ds</small>Grumble Volcano slot]].'
+        section_text = 'It is recommended to put this track on the [[Slot#battle1.1|Grumble Volcano slot]], [[Slot#2.2|Grumble Volcano slot]], [[Slot#3.3|Grumble Volcano slot]], or [[Slot#4.4|<small>ds</small>Grumble Volcano slot]].'
         actual_info = stp.read_slot_text(section_text)
-        expected_info = {"slot":"1.1", "slot2":"2.2", "slot3":"3.3", "slot4":"4.4"}
+        expected_info = {"slot":"battle1.1", "slot2":"2.2", "slot3":"3.3", "slot4":"4.4"}
         self.assertDictEqual(actual_info, expected_info)
 
     def test_read_slot_text_reason(self):
