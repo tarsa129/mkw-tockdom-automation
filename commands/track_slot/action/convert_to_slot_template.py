@@ -29,5 +29,6 @@ def convert_to_slot_template(page_id, page_name, page_text, **kwargs):
         print(e)
         return False
 
-def get_action():
-    return BaseCategoryAction(convert_to_slot_template)
+def convert_by_category(category, skip_until):
+    action = BaseCategoryAction(convert_to_slot_template)
+    return action.action_from_category_dump(category_name=category, skip_until=skip_until)
