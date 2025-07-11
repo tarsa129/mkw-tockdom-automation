@@ -31,4 +31,4 @@ def convert_to_slot_template(page_id, page_name, page_text, **kwargs):
 
 def convert_by_category(category, skip_until):
     action = BaseCategoryAction(convert_to_slot_template)
-    return action.action_from_category_dump(category_name=category, skip_until=skip_until)
+    return action.action_from_category(category_name=category, skip_until=skip_until)
