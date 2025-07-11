@@ -50,7 +50,7 @@ def validate_slot(slot_text):
     return True
 
 def get_slots(section_text, arg_names):
-    slot_full_re = "\[\[[sS]lot#((battle)?[1-8]\.[1-4])\|([a-zA-Z<\/> 0-9']{0,40}(slots?)?|((battle)?[1-8]\.[1-4]))?]]"
+    slot_full_re = "\[\[[sS]lot#((battle)?[1-8]\.[1-5])\|([a-zA-Z<\/> 0-9']{0,40}(slots?)?|((battle)?[1-8]\.[1-5]))?]]"
     slot_full_matches = re.findall(slot_full_re, section_text)
     if not slot_full_matches:
         raise RuntimeError(f"Text {section_text} does NOT match any known regexes.")
