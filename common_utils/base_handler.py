@@ -16,7 +16,10 @@ class BaseHandlerAction:
     def execute_action(self, args):
         arg_values = []
         for used_arg in self.used_args:
-            arg_values.append(args[used_arg.name])
+            if used_arg.name in args:
+                arg_values.append(args[used_arg.name])
+            else:
+                arg_values.append(None)
         self.action_function(*arg_values)
 
 class BaseHandler:

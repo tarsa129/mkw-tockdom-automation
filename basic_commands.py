@@ -16,7 +16,7 @@ def call_command_action(command_args):
     elif command_group.lower() == "distroinfo":
         distroinfo_handler.handle_command(command_args)
     elif command_group.lower() == "track_slot":
-        track_slot_handler.handle_command(command_args)
+        track_slot_handler.handler.handle_action(command_args)
     elif command_group.lower() == "szslibrary":
         szslibrary_handler.handler.handle_action(command_args)
 
