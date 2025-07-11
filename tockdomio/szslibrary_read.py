@@ -9,7 +9,8 @@ def do_szslibrary_query(base_params):
     try:
         response = requests.get(SZSLIBRARY_API, headers=headers, params=base_params)
         return response.json()
-    except:
+    except Exception as e:
+        print(e)
         return None
 
 
@@ -32,7 +33,7 @@ def get_image_from_id(image_id):
         response = requests.get(url, headers=headers)
         if response.status_code == 404:
             return None
-        return response.raw
+        return response.content
     except Exception as e:
         print(e)
         return None
