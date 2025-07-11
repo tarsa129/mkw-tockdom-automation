@@ -1,6 +1,9 @@
 import csv
 
 def write_csv_file(file, csv_info):
+    if not csv_info:
+        return
+
     if not isinstance(csv_info[0], dict):
         csv_info = [vars(entry) for entry in csv_info]
 
