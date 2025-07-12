@@ -1,5 +1,5 @@
-from commands.track_slot.action import convert_to_slot_template as convert_action
-from commands.track_slot.action import find_manual_slot_conversions as find_manual
+from commands.slotinfo.action import convert_to_slot_template as convert_action
+from commands.slotinfo.action import find_manual_slot_conversions as find_manual
 from common_utils.base_handler import BaseHandler
 
 handler = BaseHandler()
