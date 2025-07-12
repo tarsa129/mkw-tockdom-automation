@@ -1,7 +1,7 @@
 from common_utils.base_category_action import BaseCategoryAction
-from commands.track_slot.utils import track_page_read as page_read
-from commands.track_slot.utils import track_page_edit as page_edit
-from commands.track_slot.utils import section_text_parse as section_text_parse
+from commands.slotinfo.utils import track_page_read as page_read
+from commands.slotinfo.utils import track_page_edit as page_edit
+from commands.slotinfo.utils import section_text_parse as section_text_parse
 from tockdomio import tockdomwrite
 
 

@@ -1,6 +1,6 @@
 import unittest
 
-import commands.track_slot.utils.section_text_parse as stp
+import commands.slotinfo.utils.section_text_parse as stp
 
 class TestSlotTrackPageRead(unittest.TestCase):
     def test_read_slot_text_basic(self):
