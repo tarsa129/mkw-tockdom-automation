@@ -13,7 +13,10 @@ class WBZInfo:
         self.image_hash = image_hash
 
     def __repr__(self):
-        return f"{self.page_id}, {self.track_name}, {self.wbz_id}, {self.image_id}"
+        base_text = f"{self.wbz_id}/{self.image_id}: {self.track_name} {self.track_version}"
+        if self.track_version_extra:
+            base_text = f"{base_text}--{self.track_version_extra}"
+        return base_text
 
 def get_wbz_info(wbz_id):
     track_info = get_track_info(wbz_id)
