@@ -11,4 +11,6 @@ def has_slot_template(section_text):
 
 def get_slotinfo_template(section_text):
     template_info = get_template_with_name(section_text, "Slot-Info")
+    if template_info is None:
+        return None
     return read_template(str(template_info))
