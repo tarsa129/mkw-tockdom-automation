@@ -35,7 +35,7 @@ def find_heyho_ship_gba(reason_text):
     return "heyhoshipgba" in reason_text or "shy guy ship" in reason_text
 
 def find_heyho_ball_gba(reason_text):
-    return "cannonball" in reason_text
+    return "heyhoballgba" in reason_text or "cannonball" in reason_text
 
 def find_music(reason_text):
     return "music" in reason_text
