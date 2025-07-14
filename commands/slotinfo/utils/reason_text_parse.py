@@ -106,7 +106,7 @@ def find_reason_in_clause(reason_text):
     return reason_text.strip()
 
 def parse_reasons(reason_text):
-    reason_clauses = re.split(",| and | or ", reason_text)
+    reason_clauses = re.split(", | and (?!bell)| or ", reason_text)
     reason_list = [find_reason_in_clause(reason_clause) for reason_clause in reason_clauses]
     reason_args = {"reason": reason_list[0]}
 

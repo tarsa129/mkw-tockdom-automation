@@ -60,6 +60,12 @@ class TestReasonTextParse(unittest.TestCase):
         expected_reasons = {"reason": "commerce"}
         self.assertDictEqual(actual_reasons, expected_reasons)
 
+    def test_reason_text_cow_bell(self):
+        reason_text = "cow and bell sounds and commerce"
+        actual_reasons = rtp.parse_reasons(reason_text)
+        expected_reasons = {"reason":"cow-bells", "reason2": "commerce"}
+        self.assertDictEqual(actual_reasons, expected_reasons)
+
     def test_reason_text_parse_list(self):
         reason_text = "the [[KCL flag#17|road SFX]], [[KCL flag#1E|wall SFX]] and [[KCL flag#18|sound triggers]]"
         actual_reasons = rtp.parse_reasons(reason_text)
