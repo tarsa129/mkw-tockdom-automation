@@ -103,9 +103,14 @@ def find_reason_in_clause(reason_text):
     for defined_reason, defined_value in defined_reasons.items():
         if defined_reason(reason_search):
             return defined_value
+    if not reason_text.startswith("the "):
+        return "the " + reason_text.strip()
     return reason_text.strip()
 
 def parse_reasons(reason_text):
+    if reason_text in defined_reasons.values():
+        return None
+
     reason_clauses = re.split(", | and (?!bell)| or ", reason_text)
     reason_list = [find_reason_in_clause(reason_clause) for reason_clause in reason_clauses]
     reason_args = {"reason": reason_list[0]}

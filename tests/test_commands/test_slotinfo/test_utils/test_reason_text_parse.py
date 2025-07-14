@@ -57,19 +57,30 @@ class TestReasonTextParse(unittest.TestCase):
     def test_reason_text_parse(self):
         reason_text = "commerce "
         actual_reasons = rtp.parse_reasons(reason_text)
-        expected_reasons = {"reason": "commerce"}
+        expected_reasons = {"reason": "the commerce"}
         self.assertDictEqual(actual_reasons, expected_reasons)
 
     def test_reason_text_cow_bell(self):
         reason_text = "cow and bell sounds and commerce"
         actual_reasons = rtp.parse_reasons(reason_text)
-        expected_reasons = {"reason":"cow-bells", "reason2": "commerce"}
+        expected_reasons = {"reason":"cow-bells", "reason2": "the commerce"}
         self.assertDictEqual(actual_reasons, expected_reasons)
 
     def test_reason_text_parse_list(self):
         reason_text = "the [[KCL flag#17|road SFX]], [[KCL flag#1E|wall SFX]] and [[KCL flag#18|sound triggers]]"
         actual_reasons = rtp.parse_reasons(reason_text)
         expected_reasons = {"reason": "rr-road-2-sfx", "reason2": "rr-special-wall-sfx", "reason3": "sound-triggers"}
+        self.assertDictEqual(actual_reasons, expected_reasons)
+
+    def test_reason_text_parse_already_parsed(self):
+        reason_text = "sound-triggers"
+        actual_reasons = rtp.parse_reasons(reason_text)
+        self.assertIsNone(actual_reasons)
+
+    def test_reason_text_parse_unique_the(self):
+        reason_text = "the commerce"
+        actual_reasons = rtp.parse_reasons(reason_text)
+        expected_reasons = {"reason": "the commerce"}
         self.assertDictEqual(actual_reasons, expected_reasons)
 
 if __name__ == '__main__':
