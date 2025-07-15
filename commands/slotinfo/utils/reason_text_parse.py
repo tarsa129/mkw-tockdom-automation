@@ -119,3 +119,6 @@ def parse_reasons(reason_text):
         reason_args[f"reason{i+2}"] = reason
 
     return reason_args
+
+def is_defined_reason(reason_text):
+    return reason_text in defined_reasons.values()

@@ -12,6 +12,8 @@ def find_slot_reason(page_id, page_name, page_text, **kwargs):
 
     reasons = []
     for reason_text in template.get_reasons():
+        if filter_defined and is_defined_reason(reason_text):
+            continue
         reasons.append({"page_name": page_name, "slot": template.slot, "reason": reason_text})
     return reasons
 
