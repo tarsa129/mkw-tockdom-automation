@@ -10,6 +10,6 @@ handler.add_action("convert", action_function = convert_action.convert_by_catego
 handler.add_action("find_fixes", action_function = find_manual.find_unparseable_by_category,
                    args=("category_name", "dump_file_path"))
 handler.add_action("get_reasons", action_function = get_reasons.find_reasons_by_category,
-                   args=("category_name", "dump_file_path"))
+                   args=("category_name", "dump_file_path", "filter_defined"))
 handler.add_action("edit_reason", action_function = edit_reason.edit_slot_reason_by_category,
                    args=("category_name", "skip_until"))

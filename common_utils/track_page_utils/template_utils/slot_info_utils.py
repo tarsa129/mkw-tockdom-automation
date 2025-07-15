@@ -32,3 +32,8 @@ class SlotInfoTemplate(TockdomTemplate):
         self.music_slot2 = None
         self.music_slot3 = None
         self.music_slot4 = None
+
+    def get_reasons(self):
+        reasons = [self.reason, self.reason2, self.reason3, self.reason4, self.reason5,
+                   self.reason6, self.reason7, self.reason8, self.reason9, self.reason10]
+        return list(filter(lambda n: n is not None, reasons))
