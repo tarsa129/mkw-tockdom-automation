@@ -98,21 +98,32 @@ defined_reasons = {
     find_cataquacks_no_psea: "cataquacks-no-psea"
 }
 
-def find_reason_in_clause(reason_text):
+def find_defined_reason(reason_text):
     reason_search = reason_text.lower()
     for defined_reason, defined_value in defined_reasons.items():
         if defined_reason(reason_search):
             return defined_value
+    return None
+
+def find_reason_in_clause(reason_text, edit_custom=True):
+    defined_reason = find_defined_reason(reason_text)
+    if defined_reason:
+        return defined_reason
+    if not edit_custom:
+        return None
     if not reason_text.startswith("the "):
         return "the " + reason_text.strip()
     return reason_text.strip()
 
-def parse_reasons(reason_text):
+def parse_reasons(reason_text, edit_custom=True):
     if reason_text in defined_reasons.values():
         return None
 
     reason_clauses = re.split(", | and (?!bell)| or ", reason_text)
-    reason_list = [find_reason_in_clause(reason_clause) for reason_clause in reason_clauses]
+    reason_list = [find_reason_in_clause(reason_clause, edit_custom) for reason_clause in reason_clauses]
+    if len(list(filter(lambda x: x is None, reason_list))) > 0:
+        return None
+
     reason_args = {"reason": reason_list[0]}
 
     for i, reason in enumerate(reason_list[1:]):

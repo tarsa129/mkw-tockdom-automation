@@ -83,5 +83,16 @@ class TestReasonTextParse(unittest.TestCase):
         expected_reasons = {"reason": "the commerce"}
         self.assertDictEqual(actual_reasons, expected_reasons)
 
+    def test_reason_text_parse_unique(self):
+        reason_text = "the commerce"
+        self.assertIsNone(rtp.parse_reasons(reason_text, False))
+
+        reason_text = ":the {{obj-ref|0xd1|car}} and {{obj-ref|0xd0|truck}} animations"
+        self.assertIsNone(rtp.parse_reasons(reason_text, False))
+
+        reason_text = "the music"
+        self.assertDictEqual(rtp.parse_reasons(reason_text, False), {"reason":"music"})
+
+
 if __name__ == '__main__':
     unittest.main()

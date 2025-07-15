@@ -12,10 +12,12 @@ def edit_slot_reason(page_id, page_name, page_text, **kwargs):
     if not arguments or "reason" not in arguments:
         return False
     template = SlotInfoTemplate.from_template_dict(arguments)
-    print(f"{page_name}:{arguments['reason']}")
-    reason_args = parse_reasons(arguments["reason"])
+    edit_custom = kwargs["edit_custom"] == "True"
 
-    if reason_args is None or (len(reason_args) == 1 and arguments["reason"] == reason_args["reason"]):
+    print(f"{page_name}:{template.reason}")
+    reason_args = parse_reasons(template.reason, edit_custom)
+
+    if reason_args is None or (len(reason_args) < 2 and arguments["reason"] == reason_args["reason"]):
         print("NO ACTION")
         return False
 
@@ -30,6 +32,7 @@ def edit_slot_reason(page_id, page_name, page_text, **kwargs):
     return was_successful
     #return True
 
-def edit_slot_reason_by_category(category, skip_until):
+def edit_slot_reason_by_category(category, skip_until, edit_custom=False):
     action = BaseCategoryAction(edit_slot_reason)
-    return action.action_from_category(category_name=category, skip_until=skip_until)
+    kwargs = {"edit_custom": edit_custom}
+    return action.action_from_category(category_name=category, skip_until=skip_until, **kwargs)
