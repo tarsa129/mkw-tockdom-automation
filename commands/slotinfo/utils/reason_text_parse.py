@@ -67,7 +67,7 @@ def find_dirt_gfx(reason_text):
     return "dirt gfx" in reason_text
 
 def find_launch_star_sfx(reason_text):
-    return "launch_star" in reason_text or "starring" in reason_text
+    return "launch_star" in reason_text or "starring" in reason_text or "launch star" in reason_text
 
 def find_cataquacks_no_psea(reason_text):
     return "cataquack" in reason_text and "psea" in reason_text
