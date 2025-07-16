@@ -1,11 +1,11 @@
-from commands.miscinfo.utils import track_page_miscinfo as track_page
+from common_utils.track_page_utils.template_utils import misc_info_utils
 from commands.miscinfo.utils import track_page_edit as track_edit
 from common_utils.file_reader import read_csv_file
 from tockdomio import tockdomread, tockdomwrite
 
 def add_ids_to_page(page_id, page_text, new_arguments: dict, update_wbz=False):
     print(new_arguments)
-    arguments = track_page.get_miscinfo_template(page_text)
+    arguments = misc_info_utils.get_miscinfo_template(page_text)
     track_edit.patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz)
     template_text = track_edit.create_miscinfo_template(arguments)
 
