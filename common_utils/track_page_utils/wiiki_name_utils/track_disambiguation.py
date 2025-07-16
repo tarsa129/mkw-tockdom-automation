@@ -53,9 +53,15 @@ def get_from_disambiguration_page(tockdom_response, base_page_name, authors: set
 
 def get_from_full_search(base_page_name, authors: set[str]):
     all_pages_with_title = search_by_page_name(base_page_name)
-    print(all_pages_with_title)
     if len(all_pages_with_title) == 1:
         return all_pages_with_title[0]["title"]
+
+    for page in all_pages_with_title:
+        page_title = page["title"]
+        page_authors = read_authors(page_title)
+        if authors == page_authors:
+            return page_title
+
     return None
 
 def get_page_from_name_authors(base_page_name, authors: set[str]):

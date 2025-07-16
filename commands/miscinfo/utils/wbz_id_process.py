@@ -1,5 +1,5 @@
 from common_utils.szslibrary_helpers import get_track_info, get_full_versionname, get_full_trackname
-from common_utils.track_disambiguation import get_page_from_name_authors
+from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
 
 class WBZInfo:
     def __init__(self, page_id, track_name, track_version, wbz_id, image_id):

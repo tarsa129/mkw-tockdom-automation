@@ -1,6 +1,6 @@
 import unittest
 
-from common_utils import track_disambiguation as td
+from common_utils.track_page_utils.wiiki_name_utils import track_disambiguation as td
 
 class TestTrackDisambiguation(unittest.TestCase):
     def test_read_authors_one(self):
