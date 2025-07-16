@@ -7,7 +7,8 @@ from tockdomio import tockdomread
 
 def is_disambiguation_page(tockdom_response):
     if "categories" not in tockdom_response:
-        raise RuntimeError(f"No category or page ID for page {tockdom_response['title']} - likely not valid.")
+        warnings.warn(f"No category or page ID for page {tockdom_response['title']} - likely not valid.")
+        return False
 
     categories = tockdom_response["categories"]
     for category_entry in categories:
@@ -28,9 +29,10 @@ def get_authors_from_item_entry(item_text, base_page_name):
     wikilinks = read_text(item_text).wikilinks
     if len(wikilinks) == 0:
         warnings.warn(f"Track implementation {item_text} of {base_page_name} is invalid due to lack of links.")
+        return None, None
     title, text = read_wikilink(wikilinks[0])
     if base_page_name not in title:
-        return None
+        return None, None
     return read_authors(text), title
 
 def get_page_from_name_authors(base_page_name, authors: set[str]):
@@ -46,4 +48,4 @@ def get_page_from_name_authors(base_page_name, authors: set[str]):
         if track_authors == authors:
             return title
 
-    return None
+    return base_page_name

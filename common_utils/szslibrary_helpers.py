@@ -1,3 +1,4 @@
+from common_utils.track_disambiguation import get_page_from_name_authors
 from tockdomio import szslibrary_read
 
 
@@ -54,3 +55,11 @@ def get_full_trackname_version(track_info):
     track_name = get_full_trackname(track_info)
     version_name = get_full_versionname(track_info)
     return f"{track_name} {version_name}"
+
+def get_full_disambiguation(track_info):
+    track_name = get_full_trackname(track_info)
+
+    track_authors = set(track_info["track_author"].split(","))
+    track_disambig = get_page_from_name_authors(track_name, track_authors)
+
+    return track_disambig
