@@ -4,6 +4,8 @@ import warnings
 from mediawiki.mediawiki_parse import read_wikilink
 from mediawiki.mediawiki_read import read_text
 from tockdomio import tockdomread
+from tockdomio.tockdom_search import search_by_page_name
+
 
 def is_disambiguation_page(tockdom_response):
     if "categories" not in tockdom_response:
@@ -35,10 +37,9 @@ def get_authors_from_item_entry(item_text, base_page_name):
         return None, None
     return read_authors(text), title
 
-def get_page_from_name_authors(base_page_name, authors: set[str]):
-    tockdom_response = tockdomread.get_page_text_by_name(base_page_name)
+def get_from_disambiguration_page(tockdom_response, base_page_name, authors: set[str]):
     if not is_disambiguation_page(tockdom_response):
-        return base_page_name
+        return None
 
     page_text:str = tockdom_response["revisions"][0]["slots"]["main"]["content"]
     page_list = read_text(page_text).get_lists()[0]
@@ -47,5 +48,25 @@ def get_page_from_name_authors(base_page_name, authors: set[str]):
         track_authors, title = get_authors_from_item_entry(track_variant, base_page_name)
         if track_authors == authors:
             return title
+
+    return None
+
+def get_from_full_search(base_page_name, authors: set[str]):
+    all_pages_with_title = search_by_page_name(base_page_name)
+    print(all_pages_with_title)
+    if len(all_pages_with_title) == 1:
+        return all_pages_with_title[0]["title"]
+    return None
+
+def get_page_from_name_authors(base_page_name, authors: set[str]):
+    tockdom_response = tockdomread.get_page_text_by_name(base_page_name)
+
+    direct_disambiguation = get_from_disambiguration_page(tockdom_response, base_page_name, authors)
+    if direct_disambiguation:
+        return direct_disambiguation
+
+    full_search = get_from_full_search(base_page_name, authors)
+    if full_search:
+        return full_search
 
     return base_page_name
