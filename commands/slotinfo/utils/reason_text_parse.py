@@ -7,6 +7,15 @@ def search_word_in_text(word, reason_text):
 def find_audience_sfx(reason_text):
     return"audience" in reason_text
 
+def find_bfg(reason_text):
+    return search_word_in_text("bfg", reason_text)
+
+def find_bouncy_mushroom_sfx(reason_text):
+    return "bouncy mushroom" in reason_text
+
+def find_camera_flashes(reason_text):
+    return "camera flashes" in reason_text
+
 def find_cow_and_bell(reason_text):
     return "cow and bell" in reason_text
 
@@ -37,6 +46,9 @@ def find_heyho_ship_gba(reason_text):
 def find_heyho_ball_gba(reason_text):
     return "heyhoballgba" in reason_text or "cannonball" in reason_text
 
+def find_lake_sound(reason_text):
+    return "lake sound" in reason_text
+
 def find_music(reason_text):
     return "music" in reason_text
 
@@ -48,6 +60,9 @@ def find_cannon_sfx(reason_text):
 
 def find_waterfall_sfx(reason_text):
     return "waterfall sfx" in reason_text
+
+def find_wind_ambience(reason_text):
+    return "wind ambience" in reason_text
 
 def find_vehicle_invincibility(reason_text):
     return "invincibility" in reason_text
@@ -76,6 +91,9 @@ def find_cataquacks_no_psea(reason_text):
 defined_reasons = {
     find_audience_sfx: "audience-sfx",
     find_cow_and_bell: "cow-bells",
+    find_bfg: "bfg",
+    find_bouncy_mushroom_sfx: "bouncy-mushroom-sfx",
+    find_camera_flashes: "camera-flashes",
     find_snow_effect: "snow",
     find_fog: "fog",
     find_pylon01: "pylon01",
@@ -85,10 +103,12 @@ defined_reasons = {
     find_ice: "ice",
     find_heyho_ship_gba: "HeyhoShipGBA",
     find_heyho_ball_gba: "HeyhoBallGBA",
+    find_lake_sound: "lake-sound",
     find_music: "music",
     find_sound_triggers: "sound-triggers",
     find_cannon_sfx: "cannon-sfx",
     find_waterfall_sfx: "waterfall-sfx",
+    find_wind_ambience: "wind",
     find_vehicle_invincibility: "vehicle-invincibility",
     find_rr_sticky_read_sfx: "rr-sticky-road-sfx",
     find_rr_road_2_sfx: "rr-road-2-sfx",
