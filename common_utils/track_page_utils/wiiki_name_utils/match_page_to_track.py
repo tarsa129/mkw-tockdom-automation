@@ -10,7 +10,7 @@ class TrackPageName:
         self.authors = authors
 
     def check_authors(self, authors):
-        return self.authors is None or self.authors == authors
+        return self.authors == authors
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
