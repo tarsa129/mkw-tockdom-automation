@@ -37,5 +37,9 @@ class MyTestCase(unittest.TestCase):
         actual_track = mpt.parse_page_name("Track (Track Edit) (tarsa129)", "Track")
         self.assertEqual(expected_track, actual_track)
 
+    def test_parse_page_name_missing(self):
+        actual_track = mpt.parse_page_name("Epic Track (Track Edit) (tarsa129)", "Track")
+        self.assertIsNone(actual_track)
+
 if __name__ == '__main__':
     unittest.main()
