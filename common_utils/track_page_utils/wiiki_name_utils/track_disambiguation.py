@@ -1,60 +1,17 @@
-import re
-import warnings
-
-from mediawiki.mediawiki_parse import read_wikilink
-from mediawiki.mediawiki_read import read_text
+from common_utils.track_page_utils.wiiki_name_utils.identify_from_existing_page import get_from_existing_page, \
+    read_authors
+from common_utils.track_page_utils.wiiki_name_utils.match_page_to_track import parse_page_name
 from tockdomio import tockdomread
 from tockdomio.tockdom_search import search_by_page_name
-
-
-def is_disambiguation_page(tockdom_response):
-    if "categories" not in tockdom_response:
-        warnings.warn(f"No category or page ID for page {tockdom_response['title']} - likely not valid.")
-        return False
-
-    categories = tockdom_response["categories"]
-    for category_entry in categories:
-        category_name = category_entry["title"]
-        if category_name.startswith("Category:Disambiguation"):
-            return True
-
-    return False
-
-def read_authors(name_text):
-    search_authors_re = re.search(" \(([^(]*)\)$", name_text)
-    if not search_authors_re:
-        return set()
-    author_text = search_authors_re.group(1)
-    return set(re.split(', | & ', author_text))
-
-def get_authors_from_item_entry(item_text, base_page_name):
-    wikilinks = read_text(item_text).wikilinks
-    if len(wikilinks) == 0:
-        warnings.warn(f"Track implementation {item_text} of {base_page_name} is invalid due to lack of links.")
-        return None, None
-    title, text = read_wikilink(wikilinks[0])
-    if base_page_name not in title:
-        return None, None
-    return read_authors(text), title
-
-def get_from_disambiguration_page(tockdom_response, base_page_name, authors: set[str]):
-    if not is_disambiguation_page(tockdom_response):
-        return None
-
-    page_text:str = tockdom_response["revisions"][0]["slots"]["main"]["content"]
-    page_list = read_text(page_text).get_lists()[0]
-
-    for track_variant in page_list.fullitems:
-        track_authors, title = get_authors_from_item_entry(track_variant, base_page_name)
-        if track_authors == authors:
-            return title
-
-    return None
 
 def get_from_full_search(base_page_name, authors: set[str]):
     all_pages_with_title = search_by_page_name(base_page_name)
     if len(all_pages_with_title) == 1:
-        return all_pages_with_title[0]["title"]
+        page_name_parse = parse_page_name(all_pages_with_title[0]["title"], base_page_name)
+        if page_name_parse and page_name_parse.check_authors(authors):
+            return page_name_parse.full_name
+        else:
+            return None
 
     for page in all_pages_with_title:
         page_title = page["title"]
@@ -66,13 +23,7 @@ def get_from_full_search(base_page_name, authors: set[str]):
 
 def get_page_from_name_authors(base_page_name, authors: set[str]):
     tockdom_response = tockdomread.get_page_text_by_name(base_page_name)
-
-    direct_disambiguation = get_from_disambiguration_page(tockdom_response, base_page_name, authors)
-    if direct_disambiguation:
-        return direct_disambiguation
-
-    full_search = get_from_full_search(base_page_name, authors)
-    if full_search:
-        return full_search
-
-    return base_page_name
+    page_exists = "pageid" in tockdom_response
+    if page_exists:
+        return get_from_existing_page(tockdom_response, base_page_name, authors)
+    return get_from_full_search(base_page_name, authors)
