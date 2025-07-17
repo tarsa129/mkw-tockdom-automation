@@ -6,19 +6,11 @@ from tockdomio.tockdom_search import search_by_page_name
 
 def get_from_full_search(base_page_name, authors: set[str]):
     all_pages_with_title = search_by_page_name(base_page_name)
-    if len(all_pages_with_title) == 1:
-        page_name_parse = parse_page_name(all_pages_with_title[0]["title"], base_page_name)
-        if page_name_parse and page_name_parse.check_authors(authors):
-            return page_name_parse.full_name
-        else:
-            return None
-
     for page in all_pages_with_title:
         page_title = page["title"]
-        page_authors = read_authors(page_title)
-        if authors == page_authors:
+        track_page_parse = parse_page_name(page_title, base_page_name)
+        if track_page_parse.check_authors(authors):
             return page_title
-
     return None
 
 def get_page_from_name_authors(base_page_name, authors: set[str]):
