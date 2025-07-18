@@ -1,5 +1,4 @@
-from common_utils.track_page_utils.wiiki_name_utils.identify_from_existing_page import get_from_existing_page, \
-    read_authors
+from common_utils.track_page_utils.wiiki_name_utils.identify_from_existing_page import get_from_existing_page
 from common_utils.track_page_utils.wiiki_name_utils.match_page_to_track import parse_page_name
 from tockdomio import tockdomread
 from tockdomio.tockdom_search import search_by_page_name
