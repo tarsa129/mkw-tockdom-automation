@@ -7,6 +7,9 @@ from wikitextparser import Table, WikiLink, WikiText, Template, Parameter, Secti
 def read_text(text) -> WikiText:
     return wtparser.parse(text)
 
+def clean_text(text) -> str:
+    return wtparser.parse(text).plain_text()
+
 def get_table(text, caption=None):
     if not isinstance(text, WikiText):
         text = wtparser.parse(text)

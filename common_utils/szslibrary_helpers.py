@@ -1,4 +1,5 @@
 from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
+from constants import SZSLIB_EDIT, SZSLIB_TEXTURE
 from tockdomio import szslibrary_read
 
 
@@ -36,6 +37,13 @@ def get_track_info(wbz_id):
         return None
 
     return track_info[0]
+
+def get_mod_type(track_info):
+    if track_info[SZSLIB_EDIT] == 1:
+        return "Edit"
+    if track_info[SZSLIB_TEXTURE] == 1:
+        return "Texture"
+    return None
 
 def get_full_trackname(track_info):
     track_name = f"{track_info['trackname']}".strip()
