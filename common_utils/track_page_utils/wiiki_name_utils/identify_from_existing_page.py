@@ -1,6 +1,7 @@
 import re
 import warnings
 
+from common_utils.track_page_utils.wiiki_name_utils.match_page_to_track import parse_page_name
 from mediawiki.mediawiki_parse import read_wikilink
 from mediawiki.mediawiki_read import read_text
 
@@ -17,22 +18,13 @@ def is_disambiguation_page(tockdom_response):
 
     return False
 
-def read_authors(name_text):
-    search_authors_re = re.search(" \(([^(]*)\)$", name_text)
-    if not search_authors_re:
-        return set()
-    author_text = search_authors_re.group(1)
-    return set(re.split(', | & ', author_text))
-
 def get_authors_from_item_entry(item_text, base_page_name):
     wikilinks = read_text(item_text).wikilinks
     if len(wikilinks) == 0:
         warnings.warn(f"Track implementation {item_text} of {base_page_name} is invalid due to lack of links.")
-        return None, None
+        return None
     title, text = read_wikilink(wikilinks[0])
-    if base_page_name not in title:
-        return None, None
-    return read_authors(text), title
+    return parse_page_name(title, base_page_name)
 
 def get_from_existing_page(tockdom_response, base_page_name, authors: set[str]):
     if not is_disambiguation_page(tockdom_response):
@@ -42,8 +34,8 @@ def get_from_existing_page(tockdom_response, base_page_name, authors: set[str]):
     page_list = read_text(page_text).get_lists()[0]
 
     for track_variant in page_list.fullitems:
-        track_authors, title = get_authors_from_item_entry(track_variant, base_page_name)
-        if track_authors == authors:
-            return title
+        track_info = get_authors_from_item_entry(track_variant, base_page_name)
+        if track_info.check_authors(authors):
+            return track_info.full_name
 
     return None
