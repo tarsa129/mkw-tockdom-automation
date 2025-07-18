@@ -1,4 +1,4 @@
-from common_utils.szslibrary_helpers import get_track_info, get_full_versionname, get_full_trackname
+from common_utils.szslibrary_helpers import get_track_info, get_full_versionname, get_full_trackname, get_mod_type
 from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
 
 class WBZInfo:
@@ -25,7 +25,7 @@ def get_wbz_info(wbz_id):
     track_authors = set(track_info["track_author"].split(","))
 
     if not page_id:
-        track_name = get_page_from_name_authors(track_name, track_authors)
+        track_name = get_page_from_name_authors(track_name, get_mod_type(track_info), track_authors)
         print(track_name)
 
     orig_wbz_id = track_info["track_family"]
