@@ -9,6 +9,15 @@ class TrackPageName:
         self.mod_type = mod_type
         self.authors = authors
 
+    def check_modtype_authors(self, mod_type, authors):
+        author_check = self.authors == authors
+        mod_type_check = mod_type == self.mod_type
+
+        strict_check = author_check and mod_type_check
+        #Authors are not always communicated in a page name, but mod type always is.
+        loose_check = (self.authors is None or author_check) and (mod_type is None or mod_type_check)
+        return loose_check, strict_check
+
     def check_authors(self, authors):
         return self.authors == authors
 
@@ -18,6 +27,9 @@ class TrackPageName:
                     and self.mod_type == other.mod_type and self.authors == other.authors
         else:
             return NotImplemented
+
+    def __repr__(self):
+        return f"{self.full_name}, {self.base_name}, {self.mod_type}, {self.authors}"
 
 def get_parenthesis_groups(page_text):
     groups = []
