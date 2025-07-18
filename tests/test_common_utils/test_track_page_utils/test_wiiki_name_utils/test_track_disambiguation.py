@@ -9,15 +9,15 @@ class TestTrackDisambiguation(unittest.TestCase):
         # You can reenable it by editing the method name to have "test_" in front.
 
         #test not a disambiguation
-        toads_temple = td.get_page_from_name_authors("Toad's Temple", {"LucioWins"})
+        toads_temple = td.get_page_from_name_authors("Toad's Temple", None, {"LucioWins"})
         self.assertEqual("Toad's Temple", toads_temple)
 
         #test simple retro
-        snes_mc1_zpl = td.get_page_from_name_authors("SNES Mario Circuit 1", {"ZPL"})
+        snes_mc1_zpl = td.get_page_from_name_authors("SNES Mario Circuit 1", None, {"ZPL"})
         self.assertEqual("SNES Mario Circuit 1 (ZPL)", snes_mc1_zpl)
 
         #test version that does not exist, given the author
-        wicked_woods_kh = td.get_page_from_name_authors("Wicked Woods", {"The Bad Kevin"})
+        wicked_woods_kh = td.get_page_from_name_authors("Wicked Woods", None, {"The Bad Kevin"})
         self.assertIsNone(wicked_woods_kh)
 
 if __name__ == '__main__':
