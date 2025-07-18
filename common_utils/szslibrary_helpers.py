@@ -1,4 +1,7 @@
+import hashlib
+
 from tockdomio import szslibrary_read
+from tockdomio.szslibrary_read import get_image_from_id
 
 
 def validate_wbz_id(id_text):
@@ -54,3 +57,10 @@ def get_full_trackname_version(track_info):
     track_name = get_full_trackname(track_info)
     version_name = get_full_versionname(track_info)
     return f"{track_name} {version_name}"
+
+def get_imagehash_by_id(image_id):
+    image_content = get_image_from_id(image_id)
+    if image_content is None:
+        return None
+
+    return hashlib.sha256(str(image_content).encode()).hexdigest()
