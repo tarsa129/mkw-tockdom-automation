@@ -1,3 +1,5 @@
+from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
+from constants import SZSLIB_EDIT, SZSLIB_TEXTURE
 import hashlib
 
 from tockdomio import szslibrary_read
@@ -39,6 +41,13 @@ def get_track_info(wbz_id):
 
     return track_info[0]
 
+def get_mod_type(track_info):
+    if track_info[SZSLIB_EDIT] == 1:
+        return "Edit"
+    if track_info[SZSLIB_TEXTURE] == 1:
+        return "Texture"
+    return None
+
 def get_full_trackname(track_info):
     track_name = f"{track_info['trackname']}".strip()
     prefix = track_info['prefix']
@@ -57,6 +66,14 @@ def get_full_trackname_version(track_info):
     track_name = get_full_trackname(track_info)
     version_name = get_full_versionname(track_info)
     return f"{track_name} {version_name}"
+
+def get_full_disambiguation(track_info):
+    track_name = get_full_trackname(track_info)
+
+    track_authors = set(track_info["track_author"].split(","))
+    track_disambig = get_page_from_name_authors(track_name, track_authors)
+
+    return track_disambig
 
 def get_imagehash_by_id(image_id):
     image_content = get_image_from_id(image_id)
