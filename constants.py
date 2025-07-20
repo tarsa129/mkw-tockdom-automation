@@ -1,5 +1,7 @@
 #Used for tockdom wiki
 TOCKDOM_API = "https://wiki.tockdom.com/w/api.php"
+SZSLIBRARY_API = "https://szslibrary.com/api/api.php"
+SZSLIBRARY_THUMBNAIL = "https://szslibrary.com/thumbnailjpg/"
 
 TOCKDOM_API_KEY = ""
 WIKI_BOT_USERNAME = "Username@Botname"
@@ -22,3 +24,5 @@ SZSLIB_WBZID = "id_first"
 CATEGORY_CUSTOM = "Custom"
 CATEGORY_EDIT = "Edit"
 CATEGORY_TEXTURE = "Texture"
+
+MAIN_NAMESPACE = 0
