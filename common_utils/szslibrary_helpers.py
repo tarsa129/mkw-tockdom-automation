@@ -1,6 +1,9 @@
 from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
 from constants import SZSLIB_EDIT, SZSLIB_TEXTURE
+import hashlib
+
 from tockdomio import szslibrary_read
+from tockdomio.szslibrary_read import get_image_from_id
 
 
 def validate_wbz_id(id_text):
@@ -71,3 +74,10 @@ def get_full_disambiguation(track_info):
     track_disambig = get_page_from_name_authors(track_name, track_authors)
 
     return track_disambig
+
+def get_imagehash_by_id(image_id):
+    image_content = get_image_from_id(image_id)
+    if image_content is None:
+        return None
+
+    return hashlib.sha256(str(image_content).encode()).hexdigest()
