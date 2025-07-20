@@ -17,6 +17,9 @@ def full_page_check(page_name, mod_type, authors):
 
     # Strict check for equality of authors
     misc_info_authors = misc_info["author"] if "author" in misc_info and misc_info["author"] else misc_info["creator"]
+    if misc_info_authors is None and authors:
+        return False
+
     page_authors = set(clean_text(misc_info_authors).split(", "))
     if page_authors != authors:
         return False

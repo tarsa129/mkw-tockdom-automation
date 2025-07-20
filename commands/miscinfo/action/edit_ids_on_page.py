@@ -49,7 +49,7 @@ def add_ids_by_pagename(pagename, new_arguments: dict, update_existing=False):
 def add_ids_from_file(filepath):
     wbzs_to_add: list[dict] = read_csv_file(filepath)
     for wbz_entry in wbzs_to_add:
-        arguments = {"wbz-id": wbz_entry["wbz_id"], "image-id": wbz_entry["image_id"]}
+        arguments = {"wbz-id": wbz_entry["wbz_id"], "image-id": wbz_entry["image_id"], "image_hash": wbz_entry["image_hash"]}
 
         page_id = wbz_entry["page_id"]
         if page_id:

@@ -34,6 +34,9 @@ class TrackPageName:
 def get_parenthesis_groups(page_text):
     groups = []
     curr_group = ""
+    page_text = page_text.strip()
+    if not page_text.endswith(")"):
+        return groups
 
     for s in page_text:
         if len(curr_group) == 0 and s == " ":
