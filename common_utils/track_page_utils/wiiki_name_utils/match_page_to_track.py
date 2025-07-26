@@ -10,7 +10,8 @@ class TrackPageName:
         self.authors = authors
 
     def check_modtype_authors(self, mod_type, authors):
-        author_check = self.authors == authors
+        authors_converted = set([author.replace("_", " ") for author in authors])
+        author_check = self.authors == authors_converted
         mod_type_check = mod_type == self.mod_type
 
         strict_check = author_check and mod_type_check
