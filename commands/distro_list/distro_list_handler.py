@@ -1,8 +1,7 @@
 from common_utils.base_handler import BaseHandler
 from .action.create_distros_file import create_trackdistro_file
-from .action.edit_distros_list import edit_distros_to_pagenames, edit_distros_from_file
+from .action.edit_distros_list import edit_distros_from_file
 from .action.edit_distros_file import edit_distros_list
-from .utils import distro_file_reader as distro_file
 
 from .utils.distro_list_enums import Action
 
