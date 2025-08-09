@@ -15,5 +15,6 @@ def convert_to_template(page_id, page_name, page_text, **kwargs):
     was_successful = response.json()["edit"]["result"] == "Success"
     return was_successful
 
-def get_action():
-    return BaseCategoryAction(convert_to_template)
+def convert_by_category(category, skip_until):
+    action = BaseCategoryAction(convert_to_template)
+    return action.action_from_category(category_name=category, skip_until=skip_until)

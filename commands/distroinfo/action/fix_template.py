@@ -19,5 +19,6 @@ def fix_template(page_id, page_name, page_text, **kwargs):
     was_successful = response.json()["edit"]["result"] == "Success"
     return was_successful
 
-def get_action():
-    return BaseCategoryAction(fix_template)
+def fix_by_category(category, skip_until):
+    action = BaseCategoryAction(fix_template)
+    return action.action_from_category(category_name=category, skip_until=skip_until)

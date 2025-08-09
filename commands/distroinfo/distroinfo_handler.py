@@ -1,9 +1,9 @@
 from commands.distroinfo.action import convert_to_template as convert_to_template
 from commands.distroinfo.action import fix_template
+from common_utils.base_handler import BaseHandler
 
-def handle_command(args):
-    action = args.action
-    if action == "convert":
-        convert_to_template.get_action().action_from_category("Distribution")
-    elif action == "fix":
-        fix_template.get_action().action_from_category("Category", bulk_count=20, skip_until="")
+handler = BaseHandler()
+handler.add_action("convert", action_function=convert_to_template.convert_by_category,
+                   args=("category_name", "skip_until"))
+handler.add_action("fix", action_function=fix_template.fix_by_category,
+                   args=("category_name", "skip_until"))
