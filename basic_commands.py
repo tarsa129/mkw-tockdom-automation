@@ -12,7 +12,7 @@ def call_command_action(command_args):
     if command_group.lower() == "distro_list":
         distro_list_handler.handler.handle_action(command_args)
     elif command_group.lower() == "miscinfo":
-        miscinfo_handler.handle_command(command_args)
+        miscinfo_handler.handler.handle_action(command_args)
     elif command_group.lower() == "distroinfo":
         distroinfo_handler.handler.handle_action(command_args)
     elif command_group.lower() == "slotinfo":

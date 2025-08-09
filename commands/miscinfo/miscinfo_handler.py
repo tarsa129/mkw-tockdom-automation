@@ -1,13 +1,9 @@
-from commands.miscinfo.action.get_ids_from_szslibrary import get_wbz_ids
-from commands.miscinfo.action.edit_ids_on_page import add_ids_from_file
+from commands.miscinfo.action import get_ids_from_szslibrary
+from commands.miscinfo.action import edit_ids_on_page
+from common_utils.base_handler import BaseHandler
 
-def handle_command(args):
-    action = args["action"]
-    if action == "get_ids":
-        start_id = args["start_id"]
-        end_id = args["end_id"]
-        file_path = args["dump_file_path"]
-        get_wbz_ids(start_id, end_id, file_path)
-    elif action == "write_ids":
-        file_path = args["dump_file_path"]
-        add_ids_from_file(file_path)
+handler = BaseHandler()
+handler.add_action("get_ids", action_function = get_ids_from_szslibrary.get_wbz_ids,
+                   args=("start_id", "end_id", "dump_file_path"))
+handler.add_action("write_ids", action_function = edit_ids_on_page.add_ids_from_file,
+                   args=("dump_file_path", ))
