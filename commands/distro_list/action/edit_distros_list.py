@@ -1,6 +1,7 @@
 from commands.distro_list.utils import track_page_distros as track_page
 from commands.distro_list.utils.distros_list_create import validate_distros, combine_distros
 from tockdomio import tockdomwrite, tockdomread
+from commands.distro_list.utils import distro_file_reader as distro_file
 
 def read_and_update_page(tockdom_response, new_distros, action):
     if not validate_distros(new_distros):
@@ -39,3 +40,7 @@ def edit_distros_to_pageid(pageid, distros: dict, action):
 def edit_distros_to_pagenames(distros_to_add: dict, action):
     for pagename, distros in distros_to_add.items():
         edit_distros_to_pagename(pagename, distros, action)
+
+def edit_distros_from_file(file, action):
+    pagename_to_distros = distro_file.read_distro_file(file)
+    edit_distros_to_pagenames(pagename_to_distros, action)

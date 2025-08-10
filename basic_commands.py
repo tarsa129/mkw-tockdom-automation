@@ -10,11 +10,11 @@ from common_utils.file_reader import read_csv_file
 def call_command_action(command_args):
     command_group = command_args["commandgroup"]
     if command_group.lower() == "distro_list":
-        distro_list_handler.handle_command(command_args)
+        distro_list_handler.handler.handle_action(command_args)
     elif command_group.lower() == "miscinfo":
-        miscinfo_handler.handle_command(command_args)
+        miscinfo_handler.handler.handle_action(command_args)
     elif command_group.lower() == "distroinfo":
-        distroinfo_handler.handle_command(command_args)
+        distroinfo_handler.handler.handle_action(command_args)
     elif command_group.lower() == "slotinfo":
         track_slot_handler.handler.handle_action(command_args)
     elif command_group.lower() == "szslibrary":
