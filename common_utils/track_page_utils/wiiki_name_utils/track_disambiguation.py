@@ -34,14 +34,14 @@ def full_page_check(page_name, mod_type, authors):
     return True
 
 def get_page_from_name_authors(base_page_name, mod_type, authors: set[str], check_strict=True):
-    all_pages_with_title = search_by_page_name(base_page_name)
+    converted_page_name = base_page_name.replace("_", " ")
+    all_pages_with_title = search_by_page_name(converted_page_name)
 
     # Currently does not filter out custom characters/vehicles.
     # This would probably fail for some niche Factory Island edge case.
-    valid_names = [page["title"] for page in all_pages_with_title if page["title"].startswith(base_page_name)]
-
+    valid_names = [page["title"] for page in all_pages_with_title if page["title"].startswith(converted_page_name)]
     for page in valid_names:
-        track_page_parse = parse_page_name(page, base_page_name)
+        track_page_parse = parse_page_name(page, converted_page_name)
         if not track_page_parse:
             continue
 
@@ -55,4 +55,4 @@ def get_page_from_name_authors(base_page_name, mod_type, authors: set[str], chec
         if not check_strict or strict_check or full_page_check(page, mod_type, authors):
             return page
 
-    return base_page_name
+    return None
