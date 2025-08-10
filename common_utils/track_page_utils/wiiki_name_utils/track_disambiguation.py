@@ -55,4 +55,4 @@ def get_page_from_name_authors(base_page_name, mod_type, authors: set[str], chec
         if not check_strict or strict_check or full_page_check(page, mod_type, authors):
             return page
 
-    return base_page_name
+    return None
