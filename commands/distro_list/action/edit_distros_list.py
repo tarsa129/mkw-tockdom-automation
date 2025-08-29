@@ -1,4 +1,5 @@
-from commands.distro_list.utils import track_page_distros as track_page
+from commands.distro_list.utils import distro_section_meta
+from commands.distro_list.utils import distro_section_contents as track_page
 from commands.distro_list.utils.distros_list_create import validate_distros, combine_distros
 from tockdomio import tockdomwrite, tockdomread
 from commands.distro_list.utils import distro_file_reader as distro_file
@@ -19,7 +20,7 @@ def read_and_update_page(tockdom_response, new_distros, action):
     if not validate_distros(distros):
         raise RuntimeError("Existing distro_list in combined list.")
 
-    distros_section_id = track_page.get_distros_sectionid(page_text)
+    distros_section_id = distro_section_meta.get_distros_sectionid(page_text)
     distros_section_text = track_page.create_distros_section(page_text, distros)
     edit_summary = "Edit distributions on page (via API)"
     response = tockdomwrite.edit_section(page_id, distros_section_id, distros_section_text, edit_summary)

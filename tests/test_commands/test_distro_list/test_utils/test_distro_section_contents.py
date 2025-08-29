@@ -1,8 +1,7 @@
 import unittest
-import unittest.mock as mock
 import warnings
 
-import commands.distro_list.utils.track_page_distros as tpd
+import commands.distro_list.utils.distro_section_contents as tpd
 import wikitextparser as wtp
 
 class TestTrackPageHandler(unittest.TestCase):
@@ -98,27 +97,6 @@ class TestTrackPageHandler(unittest.TestCase):
 
         self.assertRaises(AssertionError, tpd.get_distros_from_section, wtp.parse(section_text))
 
-    @mock.patch("commands.distro_list.utils.track_page_distros.get_section_from_page")
-    def test_get_distrosection_from_page_fromtext(self, mock_read_text):
-        distro_section_text = """== <span id=distrib-list>Custom Track Distributions</span> ==
-This track is part of the following [[Custom Track Distribution]]s:
-* {{Distrib-ref|Distro Name 1|123123|distro-name}}
-* {{Distrib-ref|Distro Name 2|12|distro-name}}\n"""
-        page_text = "Section that doesn't matter\n" + distro_section_text + """== Section ==\nMore stuff that does not matter"""
-        mock_read_text.return_value = wtp.parse(distro_section_text)
-        distro_section = tpd.get_distrosection_from_page(page_text)
-        mock_read_text.assert_called_once()
-
-        self.assertEqual(distro_section.string, distro_section_text)
-
-    @mock.patch("commands.distro_list.utils.track_page_distros.read_text")
-    def test_get_distrosection_from_page_fromtext_nosection(self, mock_read_text):
-        page_text = "Has no sections"
-        mock_read_text.return_value = wtp.parse(page_text)
-
-        self.assertRaises(RuntimeError, tpd.get_distrosection_from_page, wtp.parse(page_text))
-        mock_read_text.assert_not_called()
-
     def test_create_distros_list(self):
         distros = {
             "A Distro": "[[A Distro]]",
@@ -135,60 +113,3 @@ This track is part of the following [[Custom Track Distribution]]s:
         expected_text = "* (none)\n"
         actual_text = tpd.create_distros_list(distros)
         self.assertEqual(actual_text, expected_text)
-
-    @mock.patch("commands.distro_list.utils.track_page_distros.read_text")
-    def test_get_distros_sectionid_first(self, mock_read_text):
-        page_text = """\n== <span id=distrib-list>Custom Track Distributions</span> ==
-This track is part of the following [[Custom Track Distribution]]s:
-* {{Distrib-ref|Distro Name 1|123123|distro-name}}
-* {{Distrib-ref|Distro Name 2|12|distro-name}}\n"""
-        mock_read_text.return_value = wtp.parse(page_text)
-        distro_section_id = tpd.get_distros_sectionid(page_text)
-        mock_read_text.assert_called_once()
-
-        self.assertEqual(distro_section_id, 1)
-
-    def test_get_distros_sectionid_middle_header(self):
-        page_text = """first filler text== first section ==
-filler text
-== <span id=distrib-list>Custom Track Distributions</span> ==
-This track is part of the following [[Custom Track Distribution]]s:
-* {{Distrib-ref|Distro Name 1|123123|distro-name}}
-* {{Distrib-ref|Distro Name 2|12|distro-name}}
-=== inner section ===
-more filler text"""
-        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
-
-        self.assertEqual(distro_section_id, 1)
-
-    def test_get_distros_sectionid_middle(self):
-        page_text = """== first section ==
-filler text
-=== inner first section ===
-filllller
-== <span id=distrib-list>Custom Track Distributions</span> ==
-This track is part of the following [[Custom Track Distribution]]s:
-* {{Distrib-ref|Distro Name 1|123123|distro-name}}
-* {{Distrib-ref|Distro Name 2|12|distro-name}}
-=== inner section ===
-more filler text"""
-        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
-
-        self.assertEqual(distro_section_id, 3)
-
-    def test_get_distros_sectionid_end(self):
-        page_text = """== first section ==
-filler text
-== <span id=distrib-list>Custom Track Distributions</span> ==
-This track is part of the following [[Custom Track Distribution]]s:
-* {{Distrib-ref|Distro Name 1|123123|distro-name}}
-* {{Distrib-ref|Distro Name 2|12|distro-name}}\n"""
-        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
-
-        self.assertEqual(distro_section_id, 2)
-
-    def test_get_distros_sectionid_none(self):
-        page_text = """== first section ==\nfiller text\n"""
-        distro_section_id = tpd.get_distros_sectionid(wtp.parse(page_text))
-
-        self.assertEqual(distro_section_id, -1)

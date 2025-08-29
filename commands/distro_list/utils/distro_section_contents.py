@@ -1,5 +1,6 @@
+from commands.distro_list.utils.distro_section_meta import get_distrosection_from_page
 from mediawiki.mediawiki_read import *
-from mediawiki.mediawiki_parse import get_section_from_page, read_wikilink
+from mediawiki.mediawiki_parse import read_wikilink
 import warnings
 
 def fix_distro_custom_name(distro_name):
@@ -42,11 +43,10 @@ def get_distros_from_section(section_text: WikiText):
         parsed_distro_list[distro_name] = item.strip()
     return parsed_distro_list
 
-def get_distrosection_from_page(page_text):
-    return get_section_from_page(page_text, "<span id=distrib-list>Custom Track Distributions</span>")
-
 def get_distros_from_page(page_text):
     distro_section = get_distrosection_from_page(page_text)
+    if distro_section is None:
+        raise RuntimeError("Track has no distribution section!")
     return get_distros_from_section(distro_section)
 
 def create_distros_section(page_text, distros:dict):
@@ -68,12 +68,3 @@ def create_distros_list(distros: dict):
     distro_list_text += "\n".join(distros.values())
     distro_list_text += "\n"
     return distro_list_text
-
-def get_distros_sectionid(page_text):
-    if not isinstance(page_text, WikiText):
-        page_text = read_text(page_text)
-
-    for i, section in enumerate(page_text.sections):
-        if section.title and "Custom Track Distributions" in section.title:
-            return i
-    return -1

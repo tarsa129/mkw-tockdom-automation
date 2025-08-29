@@ -1,8 +1,7 @@
-import re
 import warnings
 from collections import defaultdict
 
-from commands.distro_list.utils import track_page_distros
+from commands.distro_list.utils import distro_section_contents
 from mediawiki.mediawiki_read import read_text
 from common_utils.file_reader import read_csv_file
 
@@ -39,7 +38,7 @@ def read_distro_file(file):
             continue
 
         distro_text = entry["distro_text"]
-        distro_name = track_page_distros.read_distro_name(distro_text)
+        distro_name = distro_section_contents.read_distro_name(distro_text)
         version = entry["version"]
         if version:
             distro_text = f"{distro_text} ({version})"
