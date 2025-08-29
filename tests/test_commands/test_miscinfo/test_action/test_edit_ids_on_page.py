@@ -1,4 +1,5 @@
 import unittest
+import warnings
 from unittest import mock
 
 from commands.miscinfo.action import edit_ids_on_page as eiop
@@ -20,7 +21,8 @@ class TestEditWbzIdsOnPage(unittest.TestCase):
         arguments = {"wbz-id": 1, "image-id": 2}
         new_image_hash = "hash1"
 
-        is_image_update = eiop.is_image_update(arguments, new_image_hash)
+        with warnings.catch_warnings(record=True) as w:
+            is_image_update = eiop.is_image_update(arguments, new_image_hash)
         self.assertFalse(is_image_update)
         mock_get_imagehash_by_id.assert_called_once()
 

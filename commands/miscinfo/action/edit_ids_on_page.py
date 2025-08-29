@@ -1,3 +1,5 @@
+import warnings
+
 from common_utils.szslibrary_helpers import get_imagehash_by_id
 from common_utils.track_page_utils.template_utils import misc_info_utils
 from commands.miscinfo.utils import track_page_edit as track_edit
@@ -12,7 +14,7 @@ def is_image_update(arguments, new_image_hash):
     image_id = arguments["image-id"] if arguments["image-id"] else arguments["wbz-id"]
     existing_image_hash = get_imagehash_by_id(image_id)
     if existing_image_hash == new_image_hash:
-        print(f"{arguments['wbz-id']}: Existing image {image_id} is the same as incoming image, so skipping.")
+        warnings.warn(f"{arguments['wbz-id']}: Existing image {image_id} is the same as incoming image, so skipping.")
         return False
 
     return True
