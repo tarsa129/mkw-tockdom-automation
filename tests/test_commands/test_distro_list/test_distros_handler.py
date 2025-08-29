@@ -2,7 +2,6 @@ import unittest
 import warnings
 
 import commands.distro_list.action.edit_distros_list
-import commands.distro_list.distro_list_handler as dh
 from commands.distro_list.utils.distro_list_enums import Action
 import commands.distro_list.utils.distros_list_create
 
