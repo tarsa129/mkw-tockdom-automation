@@ -1,5 +1,5 @@
 class BaseHandlerActionArgument:
-    def __init__(self, name="", value=None, description=""):
+    def __init__(self, name=None, value=None, description=None):
         self.name = name
         self.value = value
         self.description = description

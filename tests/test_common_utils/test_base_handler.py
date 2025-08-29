@@ -19,7 +19,7 @@ class BaseHandlerTest(unittest.TestCase):
     def test_create_argument_value(self):
         argument = BaseHandlerActionArgument.create_new_arg(1)
         self.assertIsNone(argument.name)
-        self.assertIsNone(argument.value, 1)
+        self.assertEqual(argument.value, 1)
         self.assertIsNone(argument.description)
 
 if __name__ == '__main__':
