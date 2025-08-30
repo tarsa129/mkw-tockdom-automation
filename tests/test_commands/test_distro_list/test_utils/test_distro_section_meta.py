@@ -16,9 +16,7 @@ class TestTrackPageHandler(unittest.TestCase):
 
     def test_get_distrosection_from_page_fromtext_nosection(self):
         page_text = "Has no sections"
-        self.assertEqual(
-            dsm.get_distrosectioninfo_from_page(wtp.parse(page_text)),
-            (-1, None))
+        self.assertRaises(RuntimeError, dsm.get_distrosectioninfo_from_page, wtp.parse(page_text))
 
     def test_get_distros_sectionid_first(self):
         page_text = """\n== <span id=distrib-list>Custom Track Distributions</span> ==
@@ -70,5 +68,4 @@ This track is part of the following [[Custom Track Distribution]]s:
 
     def test_get_distros_sectionid_none(self):
         page_text = """== first section ==\nfiller text\n"""
-        actual_section_id = dsm.get_distros_sectionid(wtp.parse(page_text))
-        self.assertEqual(actual_section_id, -1)
+        self.assertRaises(RuntimeError, dsm.get_distros_sectionid, wtp.parse(page_text))

@@ -7,7 +7,7 @@ class DistributionType(Enum):
     TRACK_EDIT = TRACK_EDIT_DISTRIBUTION
 
     def get_section_title(self):
-        return DISTRIBUTION_TITLE_BASE.format(self.value)
+        return DISTRIBUTION_TITLE_BASE.format(self.value + "s")
 
     @classmethod
     def get_all_section_titles(cls):
@@ -15,3 +15,9 @@ class DistributionType(Enum):
             cls.CUSTOM_TRACK.get_section_title(),
             cls.TRACK_EDIT.get_section_title()
         )
+
+    @classmethod
+    def get_type_from_string(cls, type_string):
+        if type_string == "TRACK_EDIT":
+            return cls.TRACK_EDIT
+        raise RuntimeError(f"{type_string} is not a valid distribution type")

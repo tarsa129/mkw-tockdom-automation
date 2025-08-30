@@ -1,10 +1,24 @@
+from commands.distro_list.utils.distribution_type import DistributionType
+from commands.distro_list.utils.distro_section_contents import edit_initial_line
+from commands.distro_list.utils.distro_section_meta import get_distrosectioninfo_from_page
 from common_utils.base_category_action import BaseCategoryAction
+from tockdomio import tockdomwrite
+
 
 def edit_section_title(page_id, page_name, page_text, **kwargs):
-    print(page_id, page_name, page_text, kwargs)
-    return True
+    section_id, distro_section = get_distrosectioninfo_from_page(page_text)
+    distro_type = DistributionType.get_type_from_string(kwargs["distribution_type"])
+    distro_section.title = distro_type.get_section_title()
+    distro_section.contents = edit_initial_line(distro_section.contents, distro_type)
+    section_text = str(distro_section)
+    print(section_text)
 
-def edit_section_title_by_category(category, skip_until, old_section_title, new_section_title):
+    response = tockdomwrite.edit_section(page_id, section_id, section_text, "Edit to Track Edit Distro (via API)")
+    print(response.json())
+    was_successful = response.json()["edit"]["result"] == "Success"
+    return was_successful
+
+def edit_section_title_by_category(category, skip_until, distribution_type):
     action = BaseCategoryAction(edit_section_title)
-    kwargs = {"old_section_title": old_section_title, "new_section_title": new_section_title}
+    kwargs = {"distribution_type": distribution_type}
     return action.action_from_category(category_name=category, skip_until=skip_until, **kwargs)
