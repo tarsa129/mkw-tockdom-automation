@@ -26,6 +26,5 @@ handler.add_action("fix_file", action_function = edit_distros_list,
                          {"name": "fix_flags", "description": "Which edits to make on the file."}))
 handler.add_action("convert_track_list", action_function = edit_section_title_by_category,
                    args=({"name": "category_name", "description": "Category name to edit pages."},
-                         {"name": "skip_until", "description": "Page name to skip until"},
-                         {"name": "distribution_type", "description": "The intended distribution type, given the page."},
+                         {"name": "skip_until", "description": "Page name to skip until"}
                          ))

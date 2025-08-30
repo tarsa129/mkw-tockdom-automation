@@ -2,23 +2,29 @@ from commands.distro_list.utils.distribution_type import DistributionType
 from commands.distro_list.utils.distro_section_contents import edit_initial_line
 from commands.distro_list.utils.distro_section_meta import get_distrosectioninfo_from_page
 from common_utils.base_category_action import BaseCategoryAction
+from constants import DISTRIBUTION_SECTION_TITLE
 from tockdomio import tockdomwrite
 
 
 def edit_section_title(page_id, page_name, page_text, **kwargs):
     section_id, distro_section = get_distrosectioninfo_from_page(page_text)
-    distro_type = DistributionType.get_type_from_string(kwargs["distribution_type"])
-    distro_section.title = distro_type.get_section_title()
-    distro_section.contents = edit_initial_line(distro_section.contents, distro_type)
+    track_type = kwargs["track_type"]
+
+    #Assume that all instances where the title is correct, the section has been converted.
+    if distro_section.title == DISTRIBUTION_SECTION_TITLE:
+        return False
+
+    distro_section.title = DISTRIBUTION_SECTION_TITLE
+    distro_section.contents = edit_initial_line(distro_section.contents, track_type)
     section_text = str(distro_section)
     print(section_text)
 
-    response = tockdomwrite.edit_section(page_id, section_id, section_text, "Edit to Track Edit Distro (via API)")
+    response = tockdomwrite.edit_section(page_id, section_id, section_text, "Make Distro section generic (via API)")
     print(response.json())
     was_successful = response.json()["edit"]["result"] == "Success"
     return was_successful
 
-def edit_section_title_by_category(category, skip_until, distribution_type):
+def edit_section_title_by_category(category, skip_until):
     action = BaseCategoryAction(edit_section_title)
-    kwargs = {"distribution_type": distribution_type}
+    kwargs = {"track_type": category.split("/")[0]}
     return action.action_from_category(category_name=category, skip_until=skip_until, **kwargs)

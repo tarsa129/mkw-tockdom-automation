@@ -1,6 +1,6 @@
 from commands.distro_list.utils.distribution_type import DistributionType
 from commands.distro_list.utils.distro_section_meta import get_distrosection_from_page
-from constants import DISTRIBUTION_SECTION_INITIAL_LINE_BASE
+from constants import DISTRIBUTION_SECTION_INITIAL_LINE, DISTRIBUTION_SECTION_INITIAL_LINE_BASE
 from mediawiki.mediawiki_read import *
 from mediawiki.mediawiki_parse import read_wikilink
 import warnings
@@ -72,12 +72,16 @@ def create_distros_list(distros: dict):
     distro_list_text += "\n"
     return distro_list_text
 
-def edit_initial_line(section_text, distro_type: DistributionType):
-    distribution_type_search = "\[\[([A-Za-z ]{10,15} Distribution)]]"
+def edit_initial_line(section_text, track_type):
+    distribution_type_search = "\[\[([A-Za-z ]{0,15} Distribution)]]"
     initial_line_re_string = "^" + DISTRIBUTION_SECTION_INITIAL_LINE_BASE.format(distribution_type_search)
     initial_line_re = re.search(initial_line_re_string, section_text)
 
-    correct_initial_line =  DISTRIBUTION_SECTION_INITIAL_LINE_BASE.format(f"[[{distro_type.value}]]")
+    track_descriptor = "track"
+    if track_type == "Battle":
+        track_descriptor = "arena"
+    correct_initial_line = DISTRIBUTION_SECTION_INITIAL_LINE.format(track_descriptor)
+
     if not initial_line_re:
         warnings.warn("Page distribution section does NOT start with the required initial line. Adding manually.")
         return f"{correct_initial_line}{section_text}"
