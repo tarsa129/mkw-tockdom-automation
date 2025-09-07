@@ -3,6 +3,7 @@ from commands.distro_list import distro_list_handler
 from commands.distroinfo import distroinfo_handler
 from commands.szslibrary import szslibrary_handler
 from commands.slotinfo import track_slot_handler
+from commands.upload_files import upload_file_handler
 from common_utils.execution_arguments import combine_arguments
 
 from common_utils.file_reader import read_csv_file
@@ -19,6 +20,8 @@ def call_command_action(command_args):
         track_slot_handler.handler.handle_action(command_args)
     elif command_group.lower() == "szslibrary":
         szslibrary_handler.handler.handle_action(command_args)
+    elif command_group.lower() == "upload_file":
+        upload_file_handler.handler.handle_action(command_args)
 
 if __name__ == "__main__":
     import argparse

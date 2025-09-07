@@ -12,12 +12,12 @@ def get_tockdom_query(base_params, cookies=None) -> Response:
     response = requests.get(TOCKDOM_API, headers=headers, params=base_params, cookies=cookies)
     return response
 
-def post_tockdom_query(data, cookies=None):
+def post_tockdom_query(data, cookies=None, files=None):
     headers = {
         'User-Agent': TOCKDOM_API_KEY,
     }
 
-    response = requests.post(TOCKDOM_API, headers=headers, data=data, cookies=cookies)
+    response = requests.post(TOCKDOM_API, headers=headers, data=data, cookies=cookies, files=files)
     return response
 
 def get_login_token_response():
@@ -67,4 +67,21 @@ def edit_section(pageid, sectionid, section_text, edit_summary="Test Editing via
         "minor": minor
     }
     response = post_tockdom_query(base_params, cookies=login_cookies)
+    return response
+
+
+def upload_file(file_name, file_data):
+    login_cookies = login()
+    token = get_csrf_token(login_cookies)
+
+    base_params = {
+        "action": "upload",
+        "filename": file_name,
+        "token": token,
+        "format": "json",
+    }
+
+    file = {'file': (file_name, file_data, 'multipart/form-data')}
+
+    response = post_tockdom_query(base_params, cookies=login_cookies, files=file)
     return response
