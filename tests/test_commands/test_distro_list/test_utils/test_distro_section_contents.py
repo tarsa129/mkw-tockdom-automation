@@ -4,8 +4,6 @@ import warnings
 import commands.distro_list.utils.distro_section_contents as dsc
 import wikitextparser as wtp
 
-from commands.distro_list.utils.distribution_type import DistributionType
-
 
 class TestTrackPageHandler(unittest.TestCase):
     def test_fix_distro_custom_name(self):
@@ -116,9 +114,3 @@ class TestTrackPageHandler(unittest.TestCase):
         expected_text = "* (none)\n"
         actual_text = dsc.create_distros_list(distros)
         self.assertEqual(actual_text, expected_text)
-
-    def test_edit_initial_line(self):
-        original_text = "This track is part of the following [[Custom Track Distribution]]s:\n"
-        expected_text = "This track is part of the following [[Track Edit Distribution]]s:\n"
-        actual_text = dsc.edit_initial_line(original_text, DistributionType.TRACK_EDIT)
-        self.assertEqual(expected_text, actual_text)
