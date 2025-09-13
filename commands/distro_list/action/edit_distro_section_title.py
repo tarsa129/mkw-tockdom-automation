@@ -1,4 +1,3 @@
-from commands.distro_list.utils.distribution_type import DistributionType
 from commands.distro_list.utils.distro_section_contents import edit_initial_line
 from commands.distro_list.utils.distro_section_meta import get_distrosectioninfo_from_page
 from common_utils.base_category_action import BaseCategoryAction
@@ -8,14 +7,18 @@ from tockdomio import tockdomwrite
 
 def edit_section_title(page_id, page_name, page_text, **kwargs):
     section_id, distro_section = get_distrosectioninfo_from_page(page_text)
-    track_type = kwargs["track_type"]
 
     #Assume that all instances where the title is correct, the section has been converted.
-    if distro_section.title == DISTRIBUTION_SECTION_TITLE:
+    if distro_section.title.strip() == DISTRIBUTION_SECTION_TITLE.strip():
         return False
 
     distro_section.title = DISTRIBUTION_SECTION_TITLE
-    distro_section.contents = edit_initial_line(distro_section.contents, track_type)
+
+    update_first_line = "update_first_line" in kwargs and kwargs["update_first_line"]
+    if update_first_line:
+        track_type = kwargs["track_type"]
+        distro_section.contents = edit_initial_line(distro_section.contents, track_type)
+
     section_text = str(distro_section)
     print(section_text)
 
