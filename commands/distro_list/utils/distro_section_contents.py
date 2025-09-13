@@ -72,14 +72,17 @@ def create_distros_list(distros: dict):
     return distro_list_text
 
 def edit_initial_line(section_text, track_type):
-    distribution_type_search = "\[\[([A-Za-z ]{0,15} Distribution)s?]]s?"
-    initial_line_re_string = "^" + DISTRIBUTION_SECTION_INITIAL_LINE_BASE.format(distribution_type_search)
-    initial_line_re = re.search(initial_line_re_string, section_text)
-
     track_descriptor = "track"
     if track_type == "Battle":
         track_descriptor = "arena"
     correct_initial_line = DISTRIBUTION_SECTION_INITIAL_LINE.format(track_descriptor)
+
+    if section_text.startswith(correct_initial_line):
+        return None
+
+    distribution_type_search = "\[\[([A-Za-z ]{0,15} ?[dD]istribution)s?]]s?"
+    initial_line_re_string = "^" + DISTRIBUTION_SECTION_INITIAL_LINE_BASE.format(distribution_type_search)
+    initial_line_re = re.search(initial_line_re_string, section_text)
 
     if not initial_line_re:
         warnings.warn("Page distribution section does NOT start with the required initial line. Adding manually.")

@@ -8,16 +8,18 @@ from tockdomio import tockdomwrite
 def edit_section_title(page_id, page_name, page_text, **kwargs):
     section_id, distro_section = get_distrosectioninfo_from_page(page_text)
 
-    #Assume that all instances where the title is correct, the section has been converted.
-    if distro_section.title.strip() == DISTRIBUTION_SECTION_TITLE.strip():
-        return False
-
-    distro_section.title = DISTRIBUTION_SECTION_TITLE
-
+    new_contents = distro_section.contents
     update_first_line = "update_first_line" in kwargs and kwargs["update_first_line"]
     if update_first_line:
         track_type = kwargs["track_type"]
-        distro_section.contents = edit_initial_line(distro_section.contents, track_type)
+        new_contents = edit_initial_line(distro_section.contents, track_type)
+
+    title_converted = distro_section.title.strip() == DISTRIBUTION_SECTION_TITLE.strip()
+    if title_converted and new_contents == distro_section.contents:
+        return False
+
+    distro_section.title = DISTRIBUTION_SECTION_TITLE
+    distro_section.contents = new_contents
 
     section_text = str(distro_section)
     print(section_text)
@@ -29,5 +31,5 @@ def edit_section_title(page_id, page_name, page_text, **kwargs):
 
 def edit_section_title_by_category(category, skip_until):
     action = BaseCategoryAction(edit_section_title)
-    kwargs = {"track_type": category.split("/")[0]}
+    kwargs = {"track_type": category.split("/")[0], "update_first_line": False}
     return action.action_from_category(category_name=category, skip_until=skip_until, **kwargs)
