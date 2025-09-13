@@ -26,3 +26,8 @@ CATEGORY_EDIT = "Edit"
 CATEGORY_TEXTURE = "Texture"
 
 MAIN_NAMESPACE = 0
+
+#Distribution Info Section
+DISTRIBUTION_SECTION_TITLE = " Distributions "
+DISTRIBUTION_SECTION_INITIAL_LINE = "This {} is part of the following [[distribution]]s:\n"
+DISTRIBUTION_SECTION_INITIAL_LINE_BASE = "This (track|arena|texture hack) is part of the following {}s:\n"
