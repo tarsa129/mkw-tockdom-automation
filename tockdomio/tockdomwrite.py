@@ -64,7 +64,8 @@ def edit_section(pageid, sectionid, section_text, edit_summary="Test Editing via
         "text": section_text,
         "summary": edit_summary,
         "token": token,
-        "minor": minor
+        "minor": minor,
+        "bot": True
     }
     response = post_tockdom_query(base_params, cookies=login_cookies)
     return response
