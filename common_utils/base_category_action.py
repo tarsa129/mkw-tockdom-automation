@@ -10,6 +10,11 @@ class BaseCategoryAction:
         page_id = page_entry["pageid"]
         page_name = page_entry["title"]
         page_text: str = page_entry["revisions"][0]["slots"]["main"]["content"]
+
+        if "<spoiler" in page_text:
+            print(f"{page_name} HAS A SPOILER TAG! SKIPPING!")
+            return False
+
         return self.action(page_id, page_name, page_text, **kwargs)
 
     def action_from_pagename(self, page_name, **kwargs):
