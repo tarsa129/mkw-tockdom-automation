@@ -39,7 +39,7 @@ def get_track_info(wbz_id):
     if not track_info:
         return None
 
-    return track_info[0]
+    return track_info
 
 def get_mod_type(track_info):
     if track_info[SZSLIB_EDIT] == 1:
