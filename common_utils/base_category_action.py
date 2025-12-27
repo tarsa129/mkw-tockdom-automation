@@ -29,7 +29,7 @@ class BaseCategoryAction:
 
     def action_from_category(self, category_name, bulk_count=UPDATE_COUNT, skip_until=None, **kwargs):
         success_count = 0
-        for page_entry in tockdomread_category.get_page_entries_of_category(category_name, skip_until):
+        for page_entry in tockdomread_category.get_page_entries_of_supercategory(category_name, skip_until):
             was_successful = self.action_from_category_single(page_entry, **kwargs)
             if was_successful:
                 success_count += 1
