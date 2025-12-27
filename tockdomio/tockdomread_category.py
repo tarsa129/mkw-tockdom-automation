@@ -18,6 +18,7 @@ def get_pageids_of_category(category_name):
         "cmtitle" : f"Category:{category_name}",
         "format": "json",
         "cmlimit": CATEGORYLIST_BULKCOUNT,
+        "cmnamespace": MAIN_NAMESPACE
     }
     response = do_tockdom_query(base_params)
 
@@ -56,4 +57,38 @@ def get_page_entries_of_category(category_name, skip_until = None):
     for page_batch in get_pageid_batch(category_name, skip_until):
         page_ids = [entry['pageid'] for entry in page_batch]
         for page_entry in get_page_text_by_pageids(page_ids):
+            yield page_entry
+
+def get_subcategories_of_category(category_name):
+    base_params = {
+        "action": "query",
+        "list": "categorymembers",
+        "cmtitle": f"Category:{category_name}",
+        "format": "json",
+        "cmlimit": CATEGORYLIST_BULKCOUNT,
+        "cmnamespace": CATEGORY_NAMESPACE
+    }
+    response = do_tockdom_query(base_params)
+    return [entry["title"][9:] for entry in response["query"]["categorymembers"]
+            if entry["title"][9:] not in EXCLUSION_CATEGORY_NAMES]
+
+def get_all_subcategories_of_supercategory(category_name):
+    categories_visited = []
+    categories_discovered = [category_name]
+
+    while categories_discovered:
+        curr_category = categories_discovered[0]
+        if curr_category in categories_visited:
+            categories_discovered.pop(0)
+            continue
+
+        categories_visited.append(curr_category)
+        categories_discovered.extend(get_subcategories_of_category(curr_category))
+        categories_discovered.pop(0)
+    return categories_visited
+
+def get_page_entries_of_supercategory(category_name, skip_until=None):
+    categories: list[str] = get_all_subcategories_of_supercategory(category_name)
+    for category in categories:
+        for page_entry in get_page_entries_of_category(category, skip_until):
             yield page_entry
