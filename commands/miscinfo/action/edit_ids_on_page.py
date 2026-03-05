@@ -12,6 +12,10 @@ def is_image_update(arguments, new_image_hash):
         return True
 
     image_id = arguments["image-id"] if arguments["image-id"] else arguments["wbz-id"]
+
+    if image_id == "0":
+        return False
+
     existing_image_hash = get_imagehash_by_id(image_id)
     if existing_image_hash == new_image_hash:
         warnings.warn(f"{arguments['wbz-id']}: Existing image {image_id} is the same as incoming image, so skipping.")
