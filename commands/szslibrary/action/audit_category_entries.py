@@ -1,5 +1,5 @@
 from common_utils.base_category_action import BaseCategoryAction
-from common_utils.szslibrary_helpers import get_track_info
+from common_utils.szslibrary_helpers import get_track_info, SZSLibraryTrackInfo
 from common_utils.track_page_utils.template_utils import misc_info_utils
 from commands.szslibrary.utils.szslib_category_checker import *
 from constants import CATEGORY_CUSTOM, CATEGORY_EDIT, CATEGORY_TEXTURE

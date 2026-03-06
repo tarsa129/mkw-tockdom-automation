@@ -1,4 +1,5 @@
 from commands.szslibrary.utils.audit_entry import AuditSzsLibraryEntry
+from common_utils.szslibrary_helpers import SZSLibraryTrackInfo
 from constants import CATEGORY_CUSTOM, SZSLIB_NINTENDO, SZSLIB_EDIT, SZSLIB_TEXTURE, SZSLIB_BATTLE, SZSLIB_TRACK, \
     CATEGORY_EDIT, CATEGORY_TEXTURE, SZSLIB_WBZID
 
@@ -24,19 +25,19 @@ def check_has_wbz_id(arguments, page_name):
     audit_entry.add_audit_info("wbz-id", "Empty", "Not Empty")
     return audit_entry
 
-def check_custom_status(track_status, track_info, page_name):
-    audit_entry = AuditSzsLibraryEntry(track_info[SZSLIB_WBZID], page_name)
-    is_nintendo = str(track_info[SZSLIB_NINTENDO]) == "1"
+def check_custom_status(track_status, track_info: SZSLibraryTrackInfo, page_name):
+    audit_entry = AuditSzsLibraryEntry(track_info.id_first, page_name)
+    is_nintendo = track_info.track_nintendo
     if track_status == CATEGORY_CUSTOM and is_nintendo:
         audit_entry.set_should_be_false(SZSLIB_NINTENDO)
     elif track_status != CATEGORY_CUSTOM and not is_nintendo:
         audit_entry.set_should_be_true(SZSLIB_NINTENDO)
     return audit_entry.get_if_has_audit_info()
 
-def check_track_modification(track_modification, track_info, page_name):
-    audit_entry = AuditSzsLibraryEntry(track_info[SZSLIB_WBZID], page_name)
-    is_edit = str(track_info[SZSLIB_EDIT]) == "1"
-    is_texture = str(track_info[SZSLIB_TEXTURE]) == "1"
+def check_track_modification(track_modification, track_info: SZSLibraryTrackInfo, page_name):
+    audit_entry = AuditSzsLibraryEntry(track_info.id_first, page_name)
+    is_edit = track_info.track_change
+    is_texture = track_info.track_texturehack
     if not track_modification and is_edit:
         audit_entry.set_should_be_false(SZSLIB_EDIT)
     elif not track_modification and is_texture:

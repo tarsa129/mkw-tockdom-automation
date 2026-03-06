@@ -25,7 +25,7 @@ class SZSLibraryTrackInfo:
     track_music = ""
     track_speed = 1
     track_laps = 3
-    track_customtrack = 1
+    track_customtrack = 0
     track_customarena = 0
     track_texturehack = 0
     track_boost = 0
@@ -45,6 +45,13 @@ class SZSLibraryTrackInfo:
             track_info.track_updaters = set()
         else:
             track_info.track_updaters = set(track_info.track_editor.split(","))
+
+        track_info.track_customtrack = str(track_info.track_customtrack) == "1"
+        track_info.track_customarena = str(track_info.track_customarena) == "1"
+        track_info.track_texturehack = str(track_info.track_texturehack) == "1"
+        track_info.track_competition = str(track_info.track_competition) == "1"
+        track_info.track_nintendo = str(track_info.track_nintendo) == "1"
+        track_info.track_change = str(track_info.track_change) == "1"
 
         return track_info
 
