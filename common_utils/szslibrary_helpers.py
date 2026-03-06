@@ -42,6 +42,32 @@ class SZSLibraryTrackInfo:
 
         return track_info
 
+    def get_mod_type(self):
+        if self.track_change:
+            return "Edit"
+        elif self.track_texturehack:
+            return "Texture"
+        return None
+
+    def get_full_trackname(self):
+        track_name = f"{self.trackname}".strip()
+        prefix = self.prefix
+        if prefix:
+            track_name = f"{prefix} {track_name}"
+        return track_name
+
+    def get_full_versionname(self):
+        version_name = f"{self.track_version}".strip()
+        version_extra = self.track_version_extra
+        if version_extra:
+            version_name = f"{version_name}-{version_extra}"
+        return version_name
+
+    def get_full_trackname_version(self):
+        track_name = self.get_full_trackname()
+        version_name = self.get_full_versionname()
+        return f"{track_name} {version_name}"
+
 def validate_wbz_id(id_text):
     if not id_text.isnumeric():
         return False
