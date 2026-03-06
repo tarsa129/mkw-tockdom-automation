@@ -5,6 +5,42 @@ import hashlib
 from tockdomio import szslibrary_read
 from tockdomio.szslibrary_read import get_image_from_id
 
+class SZSLibraryTrackInfo:
+    id_first = 0
+    track_wiki = 0
+    prefix = ""
+    trackname = ""
+    track_version = ""
+    track_version_extra = ""
+    track_author = ""
+    track_editor = ""
+    track_family = 0
+    track_clan = 0
+    track_sha1 = ""
+    track_created = ""
+    track_wbz_size = 0
+    track_warn = 0
+    track_slot = ""
+    track_prop = ""
+    track_music = ""
+    track_speed = 1
+    track_laps = 3
+    track_customtrack = 1
+    track_customarena = 0
+    track_texturehack = 0
+    track_boost = 0
+    track_competition = 0
+    track_nintendo = 0
+    track_change = 0
+
+    @classmethod
+    def from_szslibrary_response(cls, dict_response):
+        track_info = cls()
+        track_info.__dict__ = dict_response
+
+        track_info.track_author = set(track_info.track_author.split(","))
+
+        return track_info
 
 def validate_wbz_id(id_text):
     if not id_text.isnumeric():
