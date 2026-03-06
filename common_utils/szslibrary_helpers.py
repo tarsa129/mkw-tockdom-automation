@@ -39,6 +39,12 @@ class SZSLibraryTrackInfo:
         track_info.__dict__ = dict_response
 
         track_info.track_author = set(track_info.track_author.split(","))
+        track_info.track_version_extra = track_info.track_version_extra or None
+
+        if track_info.track_editor is None or not track_info.track_editor.strip():
+            track_info.track_updaters = set()
+        else:
+            track_info.track_updaters = set(track_info.track_editor.split(","))
 
         return track_info
 
@@ -94,14 +100,10 @@ def validate_start_end_wbz_ids(start_id, end_id):
 
 def get_track_info(wbz_id):
     szslibrary_response = szslibrary_read.get_by_wbz_id(wbz_id)
-    if not szslibrary_response or not szslibrary_response["track_info"]:
+    if not szslibrary_response or not szslibrary_response.get("track_info", None):
         return None
 
-    track_info = szslibrary_response["track_info"]
-    if not track_info:
-        return None
-
-    return track_info
+    return SZSLibraryTrackInfo.from_szslibrary_response(szslibrary_response["track_info"])
 
 def get_mod_type(track_info):
     if track_info[SZSLIB_EDIT] == 1:
