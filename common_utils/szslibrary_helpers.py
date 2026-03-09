@@ -1,5 +1,6 @@
 import hashlib
 
+from constants import SZSLIB_TRACK_AUTHOR, SZSLIB_TRACK_EDITOR
 from tockdomio import szslibrary_read
 from tockdomio.szslibrary_read import get_image_from_id
 
@@ -10,8 +11,8 @@ class SZSLibraryTrackInfo:
     trackname = ""
     track_version = ""
     track_version_extra = ""
-    track_author = ""
-    track_editor = ""
+    track_author = set()
+    track_editor = set()
     track_family = 0
     track_clan = 0
     track_sha1 = ""
@@ -36,13 +37,14 @@ class SZSLibraryTrackInfo:
         track_info = cls()
         track_info.__dict__ = dict_response
 
-        track_info.track_author = set(track_info.track_author.split(","))
+        track_info.track_author = set(dict_response[SZSLIB_TRACK_AUTHOR].split(","))
         track_info.track_version_extra = track_info.track_version_extra or None
 
-        if track_info.track_editor is None or not track_info.track_editor.strip():
+        track_editor_text = dict_response[SZSLIB_TRACK_EDITOR]
+        if track_editor_text is None:
             track_info.track_updaters = set()
         else:
-            track_info.track_updaters = set(track_info.track_editor.split(","))
+            track_info.track_updaters = set(track_editor_text.strip().split(","))
 
         track_info.track_customtrack = str(track_info.track_customtrack) == "1"
         track_info.track_customarena = str(track_info.track_customarena) == "1"
