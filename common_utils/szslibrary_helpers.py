@@ -62,6 +62,9 @@ class SZSLibraryTrackInfo:
             return "Texture"
         return None
 
+    def is_official_version(self):
+        return self.track_version_extra is None
+
     def get_full_trackname(self):
         track_name = f"{self.trackname}".strip()
         prefix = self.prefix
@@ -80,6 +83,11 @@ class SZSLibraryTrackInfo:
         track_name = self.get_full_trackname()
         version_name = self.get_full_versionname()
         return f"{track_name} {version_name}"
+
+    def get_writeable_entry(self):
+        return {"wbz_id": self.track_family, "image_id": self.id_first,
+                "page_id": self.track_wiki, "track_name": self.get_full_trackname(), "track_version_extra": self.get_full_versionname(),
+                "authors": self.track_author, "updaters": self.track_editor}
 
 def validate_wbz_id(id_text):
     if not id_text.isnumeric():
