@@ -13,6 +13,8 @@ TRACKPAGE_BULKCOUNT = 50
 UPDATE_COUNT = 20
 
 #SZS Library constants
+SZSLIB_TRACK_AUTHOR = "track_author"
+SZSLIB_TRACK_EDITOR = "track_editor"
 SZSLIB_TRACK = "track_customtrack"
 SZSLIB_BATTLE = "track_customarena"
 SZSLIB_TEXTURE = "track_texturehack"

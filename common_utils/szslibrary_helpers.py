@@ -1,7 +1,6 @@
-from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
-from constants import SZSLIB_EDIT, SZSLIB_TEXTURE
 import hashlib
 
+from constants import SZSLIB_TRACK_AUTHOR, SZSLIB_TRACK_EDITOR
 from tockdomio import szslibrary_read
 from tockdomio.szslibrary_read import get_image_from_id
 
@@ -12,8 +11,8 @@ class SZSLibraryTrackInfo:
     trackname = ""
     track_version = ""
     track_version_extra = ""
-    track_author = ""
-    track_editor = ""
+    track_author = set()
+    track_editor = set()
     track_family = 0
     track_clan = 0
     track_sha1 = ""
@@ -38,13 +37,14 @@ class SZSLibraryTrackInfo:
         track_info = cls()
         track_info.__dict__ = dict_response
 
-        track_info.track_author = set(track_info.track_author.split(","))
+        track_info.track_author = set(dict_response[SZSLIB_TRACK_AUTHOR].split(","))
         track_info.track_version_extra = track_info.track_version_extra or None
 
-        if track_info.track_editor is None or not track_info.track_editor.strip():
+        track_editor_text = dict_response[SZSLIB_TRACK_EDITOR]
+        if track_editor_text is None:
             track_info.track_updaters = set()
         else:
-            track_info.track_updaters = set(track_info.track_editor.split(","))
+            track_info.track_updaters = set(track_editor_text.strip().split(","))
 
         track_info.track_customtrack = str(track_info.track_customtrack) == "1"
         track_info.track_customarena = str(track_info.track_customarena) == "1"
@@ -61,6 +61,9 @@ class SZSLibraryTrackInfo:
         elif self.track_texturehack:
             return "Texture"
         return None
+
+    def is_official_version(self):
+        return self.track_version_extra is None
 
     def get_full_trackname(self):
         track_name = f"{self.trackname}".strip()
@@ -80,6 +83,11 @@ class SZSLibraryTrackInfo:
         track_name = self.get_full_trackname()
         version_name = self.get_full_versionname()
         return f"{track_name} {version_name}"
+
+    def get_writeable_entry(self):
+        return {"wbz_id": self.track_family, "image_id": self.id_first,
+                "page_id": self.track_wiki, "track_name": self.get_full_trackname(), "track_version_extra": self.get_full_versionname(),
+                "authors": self.track_author, "updaters": self.track_editor}
 
 def validate_wbz_id(id_text):
     if not id_text.isnumeric():

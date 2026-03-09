@@ -31,10 +31,12 @@ def get_wbz_info(wbz_id):
 
     track_name = track_info.get_full_trackname()
     find_manually = False
-    if not track_info.id_first:
-        disambig_track_name = get_page_from_name_authors(track_info.get_full_trackname(), track_info.get_mod_type(), track_info.track_author)
+    if not track_info.track_wiki:
+        disambig_page_id, disambig_track_name = get_page_from_name_authors(
+            track_info.get_full_trackname(), track_info.get_mod_type(), track_info.track_author)
         if disambig_track_name:
             track_name = disambig_track_name
+            track_info.track_wiki = disambig_page_id
         else:
             find_manually = True
         print(track_name)
@@ -48,7 +50,7 @@ def get_wbz_info(wbz_id):
         wbz_id = 0
 
     return WBZInfo(track_info.track_family, wbz_id,
-                   track_info.id_first, track_name,
+                   track_info.track_wiki, track_name,
                    track_info.get_full_versionname(), track_info.track_version_extra, find_manually,
                    image_hash,
                    track_info.track_author, track_info.track_updaters)
