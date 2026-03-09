@@ -7,7 +7,7 @@ def get_ordered_miscinfo_arguments():
     arguments = {}
     expected_params = ["name",
                        "image","image-id", "image2", "image-id2", "image3", "image-id3", "image4", "image-id4", "image5", "image-id5",
-                       "item-tab", "item-tab2", "item-tab3", "item-tab4", "item-tab5",
+                       "image-description", "image-description2", "image-description3", "image-description4", "image-description5",
                        "creator", "author", "designer", "version", "date of release",
                        "editors used", "video", "scale", "wbz-id",
                        "download", "download2", "download3", "download4", "download5", "download6",
@@ -26,7 +26,10 @@ def get_miscinfo_template(page_text):
     for argument in miscinfo_template.arguments:
         converted_arg_name = argument.name.strip()
         if converted_arg_name not in arguments:
-            warnings.warn(f"{converted_arg_name} is not a valid miscinfo argument")
+            if converted_arg_name.isnumeric():
+                warnings.warn(f"{converted_arg_name} exists as an extra argument and will be automatically removed. ")
+            else:
+                warnings.warn(f"{converted_arg_name} is not a valid miscinfo argument")
             continue
 
         if argument.name not in arguments:
