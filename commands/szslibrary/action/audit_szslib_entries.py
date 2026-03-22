@@ -1,5 +1,5 @@
-from commands.miscinfo.utils.wbz_file_write import write_wbz_file
 from commands.szslibrary.utils.szslib_entry_checker import check_szslib_entry
+from common_utils.file_writer import write_csv_file
 from common_utils.szslibrary_helpers import validate_start_end_wbz_ids
 
 def audit_entries(start_id, end_id, file_path):
@@ -11,6 +11,6 @@ def audit_entries(start_id, end_id, file_path):
         szslib_audit_entries.extend(check_szslib_entry(i))
 
     if szslib_audit_entries:
-        write_wbz_file(file_path, szslib_audit_entries)
+        write_csv_file(file_path, szslib_audit_entries)
 
     return szslib_audit_entries
