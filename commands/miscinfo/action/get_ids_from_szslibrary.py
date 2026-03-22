@@ -1,5 +1,6 @@
 import warnings
 
+from common_utils.file_writer import write_csv_file
 from common_utils.szslibrary_helpers import *
 from common_utils.track_page_utils.template_utils import misc_info_utils
 from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
@@ -42,7 +43,7 @@ def valid_image_id(track_info: SZSLibraryTrackInfo, miscinfo_version, has_image,
     family_id = track_info.track_family
     if family_id not in current_entries:
         return True
-    #Check that you are not overriding the actual current version. 
+    #Check that you are not overriding the actual current version.
     currently_written_version = current_entries[family_id].get_full_versionname()
     return miscinfo_version != currently_written_version
 
@@ -72,4 +73,8 @@ def get_wbz_ids(start_id, end_id, file_path):
         if valid_image_id(track_info, miscinfo_version, has_image, family_id_to_track_info):
             family_id_to_track_info[family_id] = track_info
 
-    return wbz_info_entries
+    update_entries = [track_info.get_writeable_entry() for track_info in family_id_to_track_info.values()]
+    update_entries.sort(key = lambda x: x["image_id"])
+    write_csv_file(file_path, update_entries)
+
+    return update_entries
