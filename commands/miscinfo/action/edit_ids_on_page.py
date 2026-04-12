@@ -6,19 +6,13 @@ from commands.miscinfo.utils import track_page_edit as track_edit
 from common_utils.file_reader import read_csv_file
 from tockdomio import tockdomread, tockdomwrite
 
-def is_image_update(arguments, new_image_hash):
+def is_image_update(arguments):
     # New tracks, which currently have no wbz-id, will need to be updated
     if arguments["wbz-id"] is None:
         return True
 
     image_id = arguments["image-id"] if arguments["image-id"] else arguments["wbz-id"]
-
     if image_id == "0":
-        return False
-
-    existing_image_hash = get_imagehash_by_id(image_id)
-    if existing_image_hash == new_image_hash:
-        warnings.warn(f"{arguments['wbz-id']}: Existing image {image_id} is the same as incoming image, so skipping.")
         return False
 
     return True
@@ -27,7 +21,7 @@ def add_ids_to_page(page_id, page_text, new_arguments: dict, update_wbz=False):
     print(new_arguments)
     arguments = misc_info_utils.get_miscinfo_template(page_text)
 
-    if not is_image_update(arguments, new_arguments["image_hash"]):
+    if not is_image_update(arguments):
         return True
 
     track_edit.patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz)
@@ -55,7 +49,7 @@ def add_ids_by_pagename(pagename, new_arguments: dict, update_existing=False):
 def add_ids_from_file(filepath):
     wbzs_to_add: list[dict] = read_csv_file(filepath)
     for wbz_entry in wbzs_to_add:
-        arguments = {"wbz-id": wbz_entry["wbz_id"], "image-id": wbz_entry["image_id"], "image_hash": wbz_entry["image_hash"]}
+        arguments = {"wbz-id": wbz_entry["wbz_id"], "image-id": wbz_entry["image_id"]}
 
         page_id = wbz_entry["page_id"]
         if page_id:
