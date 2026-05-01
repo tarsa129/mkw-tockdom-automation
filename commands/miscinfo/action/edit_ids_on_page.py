@@ -1,12 +1,9 @@
-import warnings
-
-from common_utils.szslibrary_helpers import get_imagehash_by_id
 from common_utils.track_page_utils.template_utils import misc_info_utils
 from commands.miscinfo.utils import track_page_edit as track_edit
 from common_utils.file_reader import read_csv_file
 from tockdomio import tockdomread, tockdomwrite
 
-def is_image_update(arguments):
+def is_image_update(arguments, new_arguments):
     # New tracks, which currently have no wbz-id, will need to be updated
     if arguments["wbz-id"] is None:
         return True
@@ -15,13 +12,17 @@ def is_image_update(arguments):
     if image_id == "0":
         return False
 
+    new_image_id = f'{str(new_arguments["image-id"]):{"0"}>{2}}'
+    if new_image_id == arguments["image-id"]:
+        return False
+
     return True
 
 def add_ids_to_page(page_id, page_text, new_arguments: dict, update_wbz=False):
     print(new_arguments)
     arguments = misc_info_utils.get_miscinfo_template(page_text)
 
-    if not is_image_update(arguments):
+    if not is_image_update(arguments, new_arguments):
         return True
 
     track_edit.patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz)
