@@ -22,7 +22,7 @@ def get_by_wbz_id(wbz_id):
     return do_szslibrary_query(base_params)
 
 def get_image_from_id(image_id):
-    image_id = str(image_id)
+    image_id = f'{str(image_id):{"0"}>{5}}'
     headers = {
         'User-Agent': SZSLIBRARY_API_KEY,
     }
