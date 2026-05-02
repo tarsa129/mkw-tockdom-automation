@@ -21,6 +21,13 @@ def get_by_wbz_id(wbz_id):
 
     return do_szslibrary_query(base_params)
 
+def get_by_family_id(family_id):
+    base_params = {
+        "family": family_id
+    }
+
+    return do_szslibrary_query(base_params)
+
 def get_image_from_id(image_id):
     image_id = f'{str(image_id):{"0"}>{5}}'
     headers = {
