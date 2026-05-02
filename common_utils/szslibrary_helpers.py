@@ -120,6 +120,17 @@ def get_track_info(wbz_id):
 
     return SZSLibraryTrackInfo.from_szslibrary_response(szslibrary_response["track_info"])
 
+def get_family_info(family_id):
+    szslibrary_response = szslibrary_read.get_by_family_id(family_id)
+    if not szslibrary_response or not szslibrary_response.get("tracks", None):
+        return None
+
+    tracks = []
+    for track in szslibrary_response["tracks"]:
+        tracks.append(SZSLibraryTrackInfo.from_szslibrary_response(track))
+
+    return tracks
+
 def get_imagehash_by_id(image_id):
     image_content = get_image_from_id(image_id)
     if image_content is None:
