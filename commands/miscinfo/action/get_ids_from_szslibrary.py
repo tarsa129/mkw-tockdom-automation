@@ -52,6 +52,8 @@ class FamilyIDInformation:
         self.page_id = page_id
         self.track_info: SZSLibraryTrackInfo = track_info
         self.miscinfo_information = miscinfo_information
+        if self.miscinfo_information["wbz-id"] is None:
+            self.miscinfo_information["wbz-id"] = ""
         self.official_version = False
 
     def get_current_version(self):
@@ -64,6 +66,9 @@ class FamilyIDInformation:
 
         if not effective_image_id:
             effective_image_id= f'{self.miscinfo_information["wbz-id"]:{"0"}>{2}}'
+
+        if self.track_info is None:
+            print(self.page_id, self.miscinfo_information)
 
         incoming_image_id =  f'{str(self.track_info.id_first):{"0"}>{2}}'
         return incoming_image_id == effective_image_id
