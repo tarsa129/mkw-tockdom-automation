@@ -63,12 +63,11 @@ class FamilyIDInformation:
         effective_image_id = self.miscinfo_information["image-id"]
         if effective_image_id == "0":
             return True
+        if self.track_info is None:
+            return True
 
         if not effective_image_id:
             effective_image_id= f'{self.miscinfo_information["wbz-id"]:{"0"}>{2}}'
-
-        if self.track_info is None:
-            print(self.page_id, self.miscinfo_information)
 
         incoming_image_id =  f'{str(self.track_info.id_first):{"0"}>{2}}'
         return incoming_image_id == effective_image_id
