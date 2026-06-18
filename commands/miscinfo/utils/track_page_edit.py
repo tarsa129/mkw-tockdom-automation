@@ -15,6 +15,9 @@ def patch_ids_to_miscinfo_template(arguments, new_arguments, update_wbz = False)
     new_image_id = new_arguments["image-id"]
     if new_image_id and new_image_id != new_wbz_id:
         arguments["image-id"] = new_image_id
+        arguments["image-id"] = f'{str(arguments["image-id"]):{"0"}>{2}}'
+    elif new_image_id == new_wbz_id:
+        arguments["image-id"] = None
 
 def create_miscinfo_template(arguments: dict):
     return create_template_from_args(arguments, "Misc-Info")
