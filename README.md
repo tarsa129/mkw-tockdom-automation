@@ -1,7 +1,7 @@
-# MKWii Tockdom Automation
+# MKWiiki Automation
 
 ## Purpose
-The [moderators of the Custom Mario Kart Wiiki](https://wiki.tockdom.com/wiki/Help:Contents#Wiiki_Team) spend a lot of time mass-editing wiki pages. The purpose of this project is to automate these processes to save on unnecessary manual work.  
+The [moderators of the Custom Mario Kart Wiiki](https://mkwiiki.org/wiki/Help:Contents) spend a lot of time mass-editing wiki pages. The purpose of this project is to automate these processes to save on unnecessary manual work.  
 
 ## Features
 ### Obsolete (One-Time Conversions)
@@ -21,8 +21,8 @@ The [moderators of the Custom Mario Kart Wiiki](https://wiki.tockdom.com/wiki/He
 
 ## Setup
 1. Install Python dependencies using the provided requirements.txt file.
-2. Obtain Tockdom API key from [Tock](https://wiki.tockdom.com/wiki/User:Tock). Fill TOCKDOM_API_KEY variable in constants.py.
-3. Create bot account using [the "Bot passwords" special page](https://wiki.tockdom.com/wiki/Special:BotPasswords). Fill in WIKI_BOT_USERNAME and WIKI_BOT_PASSWORD in constants.py.
+2. Obtain Tockdom API key from [Krummers](https://mkwiiki.org/wiki/User:Krummers). Fill TOCKDOM_API_KEY variable in constants.py.
+3. Create bot account using [the "Bot passwords" special page](https://mkwiiki.org/wiki/Special:BotPasswords). Fill in WIKI_BOT_USERNAME and WIKI_BOT_PASSWORD in constants.py.
 
 ## Running
 The three arguments that you can pass in are 
